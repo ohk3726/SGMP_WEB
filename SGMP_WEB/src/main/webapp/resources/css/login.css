@@ -1,0 +1,75 @@
+html,body{
+	height:100%;
+	font-family: 怨좊뵓;
+}
+
+body{
+	background-color:#343a48;	
+	display: table;
+	margin:0 auto;
+}
+
+#LoginMainBox{
+	text-align:center;
+	height: 100%;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#LoginMainTitle{
+	color:#D9D9DB;
+	font-size:50px;
+	font-family: 諛뷀깢;
+}
+
+#LoginSubTitle{
+	color:#5E6472;
+}
+
+table{
+	margin:auto;
+}
+
+td{
+	padding:10px 10px 3px 10px;
+}
+
+label{
+	font-size:20px;
+	color:white;
+}
+
+input[type=text], input[type=password] {
+	width: 300px; /* �썝�븯�뒗 �꼫鍮� �꽕�젙 */ 
+	height: auto; /* �넂�씠媛� 珥덇린�솕 */ 
+	line-height : normal; /* line-height 珥덇린�솕 */ 
+	font-family: inherit; /* �룿�듃 �긽�냽 */ 
+	border: 1px solid #6C7280; 
+	border-radius: 0; /* iSO �뫁洹쇰え�꽌由� �젣嫄� */ 
+	outline-style: none; /* �룷而ㅼ뒪�떆 諛쒖깮�븯�뒗 �슚怨� �젣嫄곕�� �썝�븳�떎硫� */ 
+	-webkit-appearance: none; /* 釉뚮씪�슦��蹂� 湲곕낯 �뒪���씪留� �젣嫄� */ 
+	-moz-appearance: none; 
+	appearance: none;
+	background-color: #6C7280;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size:20px;
+}
+
+input[type=submit]{
+	width: 110px; /* �썝�븯�뒗 �꼫鍮� �꽕�젙 */ 
+	height: 110px; /* �넂�씠媛� 珥덇린�솕 */ 
+	line-height : normal; /* line-height 珥덇린�솕 */ 
+	font-family: inherit; /* �룿�듃 �긽�냽 */ 
+	border: 1px solid #5C6A8D; 
+	border-radius: 0; /* iSO �뫁洹쇰え�꽌由� �젣嫄� */ 
+	outline-style: none; /* �룷而ㅼ뒪�떆 諛쒖깮�븯�뒗 �슚怨� �젣嫄곕�� �썝�븳�떎硫� */ 
+	-webkit-appearance: none; /* 釉뚮씪�슦��蹂� 湲곕낯 �뒪���씪留� �젣嫄� */ 
+	-moz-appearance: none; 
+	appearance: none;
+	background-color: #5C6A8D;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size:20px;
+	color:white;
+}

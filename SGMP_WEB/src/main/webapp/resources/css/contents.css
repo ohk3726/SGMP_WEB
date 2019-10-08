@@ -1,0 +1,66 @@
+body{
+	height:100%;
+	background-color: gray;
+	display: table;
+	margin:0 auto;
+}
+
+#contents{
+	width:1910px;
+	height:100%;
+	margin: 5px;
+	float:left;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#user{
+	width:200px;
+	height:310px;
+	background-color: white;
+	margin: 5px;
+	float:left;
+}
+#calendar{
+	width:300px;
+	height:310px;
+	background-color: white;
+	margin: 5px;
+	float:left;
+}
+#chart{
+	width:600px;
+	height:310px;
+	background-color: white;
+	margin: 5px;
+	float:left;
+}
+#notices{
+	width:770px;
+	height:310px;
+	background-color: white;
+	margin: 5px;
+	float:left;
+}
+#sale_rank{
+	clear:both;
+	float:left;
+	width:690px;
+	height:585px;
+	background-color: white;
+	margin: 5px;
+}
+#stock_rank{
+	width:690px;
+	height:585px;
+	background-color: white;
+	margin: 5px;
+	float:left;
+}
+#product_stock_cnt{
+	width:500px;
+	height:585px;
+	background-color: white;
+	margin: 5px;
+	float:left;
+}
