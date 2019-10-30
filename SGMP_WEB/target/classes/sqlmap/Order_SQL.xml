@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. --> 
+<mapper namespace="com.sgmp.web.dao.OrderDAO"> 
+<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. --> 
+	<select id="order_all_list" resultType="OrderVO"> 
+		select
+			t20.prod_wearing_condition,
+			t10.prod_name,
+			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
+			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
+			t20.prod_wearing_cnt,
+			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
+			t20.prod_wearing_company_id
+		from 
+			product t10,
+			product_wearing t20,
+			product_root t30
+		where t20.prod_id = t10.prod_id(+)
+		and t20.prod_id = t30.prod_id(+)
+	</select> 
+</mapper>
