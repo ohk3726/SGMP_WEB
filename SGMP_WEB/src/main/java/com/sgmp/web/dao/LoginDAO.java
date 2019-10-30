@@ -3,6 +3,6 @@ package com.sgmp.web.dao;
 import com.sgmp.web.vo.LoginVO;
 
 public interface LoginDAO {
-	//·Î±×ÀÎ
+	//ë¡œê·¸ì¸DAO
 	public int check(LoginVO LoginVO);
 }
