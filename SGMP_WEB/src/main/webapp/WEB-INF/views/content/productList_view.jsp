@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="icon" type="image/png" href="resources/img/icons/favicon.ico"/>
 <link rel="stylesheet" type="text/css" href="resources/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -28,8 +28,8 @@
 		
 	}
 </script>
-
-<div class="limiter">
+<div style="float:left;width:100%;background-color:white;text-align:center;">
+	<br>
 	<form id="PRO" method="POST" action="PRO">
 		<select name="selectCompany1" id="selectCompany1" onchange="javascript:changeSelect()">
 			<option>정렬 선택하기</option>
@@ -39,6 +39,9 @@
 		</select> 
 		<input type="hidden" id="selectCompany" name="selectCompany">
 	</form>
+	<br>
+</div>
+<div class="limiter">
 	<div class="container-table100">
 		<div class="wrap-table100">
 			<div class="table100 ver1 m-b-110">
@@ -47,13 +50,13 @@
 						<thead>
 							<tr class="row100 head">
 								<th class="cell100 column1">제품ID
-								<th class="cell100 column2" style="width:30%;">제품명
-								<th class="cell100 column3" style="width:10%;">재고수량
-								<th class="cell100 column4">제품단가
-								<th class="cell100 column5">입고가
-								<th class="cell100 column6">판매가
-								<th class="cell100 column7">마진
-								<th class="cell100 column8">지점명
+								<th class="cell100 column3" style="width:30%;">제품명
+								<th class="cell100 column4" style="width:10%;">재고수량
+								<th class="cell100 column5">제품전체가격
+								<th class="cell100 column6">입고가
+								<th class="cell100 column7">판매가
+								<th class="cell100 column8">마진
+								<th class="cell100 column9">지점명
 							</tr>
 						</thead>
 					</table>
@@ -65,14 +68,14 @@
 								<c:forEach var="item" items="${list}">
 									<tr>
 										<td class="cell100 column1">${item.prod_id}
-										<td class="cell100 column2" style="width:30%;"><a href='#' id="product_a" value="${item.prod_id}" onclick="javascript:click_productid(); ">${item.prod_name}</a>
+										<td class="cell100 column3" style="width:30%;"><a href='#' id="product_a" value="${item.prod_id}" onclick="javascript:click_productid(); ">${item.prod_name}</a>
 											<input type="hidden" id="product_id" name="product_id" value="${item.prod_id}">
-										<td class="cell100 column3" style="width:10%;">${item.prod_cnt}
-										<td class="cell100 column4">${item.prod_all}
-										<td class="cell100 column5">${item.prod_wearing_price}
-										<td class="cell100 column6">${item.prod_price}
-										<td class="cell100 column7">${item.prod_margin}
-										<td class="cell100 column8">${item.company_id}
+										<td class="cell100 column4" style="width:10%;">${item.prod_cnt}
+										<td class="cell100 column5">${item.prod_all}
+										<td class="cell100 column6">${item.prod_wearing_price}
+										<td class="cell100 column7">${item.prod_price}
+										<td class="cell100 column8">${item.prod_margin}
+										<td class="cell100 column9">${item.company_id}
 								</c:forEach>
 							</tbody>
 						</table>

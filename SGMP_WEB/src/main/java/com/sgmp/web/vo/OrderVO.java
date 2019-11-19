@@ -8,6 +8,29 @@ public class OrderVO {
 	private String prod_wearing_cnt;
 	private String prod_root_cnt;
 	private String prod_wearing_company_id;
+	private String prod_wearing_id;
+	private String prod_wearing_flg;
+	private String prod_wearing_release;
+	
+	
+	public String getProd_wearing_flg() {
+		return prod_wearing_flg;
+	}
+	public void setProd_wearing_flg(String prod_wearing_flg) {
+		this.prod_wearing_flg = prod_wearing_flg;
+	}
+	public String getProd_wearing_release() {
+		return prod_wearing_release;
+	}
+	public void setProd_wearing_release(String prod_wearing_release) {
+		this.prod_wearing_release = prod_wearing_release;
+	}
+	public String getProd_wearing_id() {
+		return prod_wearing_id;
+	}
+	public void setProd_wearing_id(String prod_wearing_id) {
+		this.prod_wearing_id = prod_wearing_id;
+	}
 	public String getProd_wearing_condition() {
 		return prod_wearing_condition;
 	}
@@ -55,9 +78,12 @@ public class OrderVO {
 	public String toString() {
 		return "OrderVO [prod_wearing_condition=" + prod_wearing_condition + ", prod_name=" + prod_name
 				+ ", prod_wearing_price=" + prod_wearing_price + ", prod_wearing_price_calc=" + prod_wearing_price_calc
-				+ ", prod_wearing_cnt=" + prod_wearing_cnt + ", prod_root_cnt=" + prod_root_cnt + ", prod_wearing_company_id="
-				+ prod_wearing_company_id + "]";
+				+ ", prod_wearing_cnt=" + prod_wearing_cnt + ", prod_root_cnt=" + prod_root_cnt
+				+ ", prod_wearing_company_id=" + prod_wearing_company_id + ", prod_wearing_id=" + prod_wearing_id
+				+ ", prod_wearing_flg=" + prod_wearing_flg + ", prod_wearing_release=" + prod_wearing_release + "]";
 	}
+	
+
 	
 	
 }

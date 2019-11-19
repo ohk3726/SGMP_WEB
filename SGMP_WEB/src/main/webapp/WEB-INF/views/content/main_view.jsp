@@ -4,12 +4,17 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="resources/js/zabuto_calendar.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="resources/css/contents.css">
+<link rel="stylesheet" type="text/css" href="resources/css/contents.css?version=1">
 <link rel="stylesheet" type="text/css" href="resources/css/zabuto_calendar.min.css">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 <div id="contents">
 	<div id="user">
-		사용자 부분
+		<br><br><br><br><br><br>
+		${user_id}
+		<br><br>
+				<form action="/web/logout" method="post">
+					<input type="submit" value="로그아웃">
+				</form>
 	</div>
 	<div id="calendar">
 		<div id="calendar1"></div>

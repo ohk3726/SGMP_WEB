@@ -59,7 +59,7 @@ ul, li {
 input {
   display: block;
 	outline: none;
-	border: none !important;
+	border: none;
 	text-align:center;
 	margin-lef:auto;
 	margin-right:auto;
@@ -187,12 +187,13 @@ th, td {
   width: 10%;
   text-align:center;
 }
+
 .column3 {
-  width: 30%;
+  width: 10%;
   text-align:center;
 }
 .column4 {
-  width: 10%;
+  width: 20%;
   text-align:center;
 }
 .column5 {
@@ -208,6 +209,10 @@ th, td {
   text-align:center;
 }
 .column8 {
+  width: 10%;
+  text-align:center;
+}
+.column9 {
   width: 10%;
   text-align:center;
 }

@@ -18,7 +18,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<typeAliases>
 		<typeAlias alias="productVO" type="com.sgmp.web.vo.ProductVO"/> 
 		<typeAlias alias="loginVO" type="com.sgmp.web.vo.LoginVO"/> 
-		<typeAlias alias="orderVO" type="com.sgmp.web.vo.OrderVO"/> 
+		<typeAlias alias="orderVO" type="com.sgmp.web.vo.OrderVO"/>
+		<typeAlias alias="CompanyVO" type="com.sgmp.web.vo.CompanyVO"/>
+		<typeAlias alias="MentVO" type="com.sgmp.web.vo.MentVO"/>
+		<typeAlias alias="NoticeVO" type="com.sgmp.web.vo.NoticeVO"/>
 	</typeAliases> 
 	
 </configuration>

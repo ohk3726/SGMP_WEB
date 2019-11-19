@@ -18,9 +18,33 @@ public class ProductVO {
 	private String prod_all;
 	private String prod_margin;
 	private String company_id;
+
 	
 	
-	
+	public String getProd_all() {
+		return prod_all;
+	}
+
+	public void setProd_all(String prod_all) {
+		this.prod_all = prod_all;
+	}
+
+	public String getProd_margin() {
+		return prod_margin;
+	}
+
+	public void setProd_margin(String prod_margin) {
+		this.prod_margin = prod_margin;
+	}
+
+	public String getCompany_id() {
+		return company_id;
+	}
+
+	public void setCompany_id(String company_id) {
+		this.company_id = company_id;
+	}
+
 	public String getProd_pic() {
 		return prod_pic;
 	}
@@ -93,30 +117,6 @@ public class ProductVO {
 		this.prod_mod_date = prod_mod_date;
 	}
 
-	public String getProd_all() {
-		return prod_all;
-	}
-
-	public void setProd_all(String prod_all) {
-		this.prod_all = prod_all;
-	}
-
-	public String getProd_margin() {
-		return prod_margin;
-	}
-
-	public void setProd_margin(String prod_margin) {
-		this.prod_margin = prod_margin;
-	}
-
-	public String getCompany_id() {
-		return company_id;
-	}
-
-	public void setCompany_id(String company_id) {
-		this.company_id = company_id;
-	}
-
 	public String getProd_id() {
 		return prod_id;
 	}
@@ -133,6 +133,7 @@ public class ProductVO {
 		this.prod_name = prod_name;
 	}
 
+	
 	public String getProd_price() {
 		return prod_price;
 	}
@@ -158,6 +159,7 @@ public class ProductVO {
 				+ prod_cnt_min + ", prod_flag=" + prod_flag + ", prod_mod_date=" + prod_mod_date + ", prod_all="
 				+ prod_all + ", prod_margin=" + prod_margin + ", company_id=" + company_id + "]";
 	}
+
 
 
 	

@@ -1,33 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
-<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. --> 
-<mapper namespace="com.sgmp.web.dao.ProductDAO"> 
-<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 있습니다. --> 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 맵핑될 DAO 인터페이스의 Full name 을 줍니다. -->
+<mapper namespace="com.sgmp.web.dao.ProductDAO">
+
+
+	<!-- id 속성은 DAO 의 메소드와 같아야 한다. 여기의 boardVO 는 mybatis-confg.xml 에 Alias 되어 
+		있습니다. -->
 	<select id="selectProductList" resultType="ProductVO">
 		SELECT 
 			PROD_ID, 
 			PROD_NAME, 
 			PROD_CNT,
-			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999') as PROD_ALL, 
-			to_char(PROD_WEARING_PRICE ,'FM999,999,999') as PROD_WEARING_PRICE, 
-			to_char(PROD_PRICE,'FM999,999,999') as PROD_PRICE, 
-			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999')as PROD_MARGIN , 
+			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999,999') as PROD_ALL, 
+			to_char(PROD_WEARING_PRICE ,'FM999,999,999,999') as PROD_WEARING_PRICE, 
+			to_char(PROD_PRICE,'FM999,999,999,999') as PROD_PRICE, 
+			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999,999')as PROD_MARGIN , 
 			COMPANY_ID  
 		FROM PRODUCT
 	</select>
 	
 	<select id = "selectedCompanyList_A" resultType="ProductVO">
 		SELECT	PROD_ID, PROD_NAME, PROD_CNT,
-			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999') as PROD_ALL, 
-			to_char(PROD_WEARING_PRICE ,'FM999,999,999') as PROD_WEARING_PRICE, 
-			to_char(PROD_PRICE,'FM999,999,999') as PROD_PRICE, 
-			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999')as PROD_MARGIN , 
+			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999,999') as PROD_ALL, 
+			to_char(PROD_WEARING_PRICE ,'FM999,999,999,999') as PROD_WEARING_PRICE, 
+			to_char(PROD_PRICE,'FM999,999,999,999') as PROD_PRICE, 
+			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999,999')as PROD_MARGIN , 
 			COMPANY_ID  
 		FROM PRODUCT
 		WHERE COMPANY_ID = #{company_id}
 			
 	</select>
+
+	
+<select id = "prod_search_id" resultType="ProductVO">
+		SELECT	PROD_ID, PROD_NAME, PROD_CNT,
+			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999,999') as PROD_ALL, 
+			to_char(PROD_WEARING_PRICE ,'FM999,999,999,999') as PROD_WEARING_PRICE, 
+			to_char(PROD_PRICE,'FM999,999,999,999') as PROD_PRICE, 
+			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999,999')as PROD_MARGIN , 
+			COMPANY_ID  
+		FROM PRODUCT
+		WHERE PROD_ID = #{prod_id}
+			
+	</select>
+	
+	<select id = "prod_search_title" resultType="ProductVO">
+		SELECT	PROD_ID, PROD_NAME, PROD_CNT,
+			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999,999') as PROD_ALL, 
+			to_char(PROD_WEARING_PRICE ,'FM999,999,999,999') as PROD_WEARING_PRICE, 
+			to_char(PROD_PRICE,'FM999,999,999,999') as PROD_PRICE, 
+			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999,999')as PROD_MARGIN , 
+			COMPANY_ID  
+		FROM PRODUCT
+		WHERE PROD_NAME LIKE  '%' ||  #{prod_name} || '%' 
+			
+	</select>
+
+
 
 	<select id = "prodList" resultType="ProductVO">
 			SELECT DISTINCT COMPANY_ID FROM PRODUCT
@@ -36,12 +66,29 @@
 	
 	<select id ="productInfo" resultType="ProductVO">
 			SELECT	PROD_ID, PROD_NAME, PROD_CNT,
-			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999') as PROD_ALL, 
-			to_char(PROD_WEARING_PRICE ,'FM999,999,999') as PROD_WEARING_PRICE, 
-			to_char(PROD_PRICE,'FM999,999,999') as PROD_PRICE, 
-			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999')as PROD_MARGIN , 
+			to_char((PROD_PRICE * PROD_CNT),'FM999,999,999,999') as PROD_ALL, 
+			to_char(PROD_WEARING_PRICE ,'FM999,999,999,999') as PROD_WEARING_PRICE, 
+			to_char(PROD_PRICE,'FM999,999,999,999') as PROD_PRICE, 
+			to_char((PROD_PRICE - PROD_WEARING_PRICE) ,'FM999,999,999,999')as PROD_MARGIN , 
 			COMPANY_ID  
 		FROM PRODUCT
+		WHERE PROD_ID = #{prod_id} 
+	</select>
+	
+	<update id="product_modify" >
+		UPDATE PRODUCT SET
+			PROD_NAME = #{prod_name},
+			PROD_CNT = #{prod_cnt},
+			PROD_WEARING_PRICE = #{prod_wearing_price},
+			PROD_PRICE = #{prod_price},
+			COMPANY_ID = #{company_id}
 		WHERE PROD_ID = #{prod_id}
-	</select> 
+	</update>
+ 
+ <insert id="product_insert" >
+ 
+		INSERT INTO PRODUCT(PROD_ID, PROD_NAME, PROD_CNT, PROD_WEARING_PRICE, PROD_PRICE, COMPANY_ID, PROD_MAIN_CATEGORY, PROD_SUB_CATEGORY, PROD_SSUB_CATEGORY, PROD_CNT_MIN, PROD_DATE) 
+		VALUES (#{prod_id},#{prod_name},#{prod_cnt},#{prod_wearing_price},#{prod_price},#{company_id},#{prod_main_category},#{prod_sub_category},#{prod_ssub_category},#{prod_cnt_min},sysdate)
+			
+	</insert>
 </mapper>
