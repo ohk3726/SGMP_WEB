@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgmp.web.dao.CompanyDAO">
+
+	<select id="selectCompanyList" resultType="CompanyVO">
+		SELECT COMPANY_ID,COMPANY_NAME,COMPANY_ADDRESS,COMPANY_NUMBER 
+		FROM COMPANY
+		
+	</select>
+	
+	<select id="company_search" resultType="CompanyVO">
+		SELECT COMPANY_ID,COMPANY_NAME,COMPANY_ADDRESS,COMPANY_NUMBER 
+		FROM COMPANY
+		WHERE COMPANY_NAME LIKE '%' ||  #{COMPANY_NAME} || '%' 
+		
+	</select>
+	
+	<insert id="company_insert" >
+ 
+		INSERT INTO COMPANY(COMPANY_ID,COMPANY_NAME,COMPANY_ADDRESS,COMPANY_NUMBER) 
+		VALUES (#{COMPANY_ID},#{COMPANY_NAME},#{COMPANY_ADDRESS},#{COMPANY_NUMBER})
+			
+	</insert>
+	
+	<select id="company_modify_info" resultType ="CompanyVO">
+			SELECT COMPANY_ID,COMPANY_NAME,COMPANY_ADDRESS,COMPANY_NUMBER 
+			FROM COMPANY
+			WHERE COMPANY_ID = #{COMPANY_ID}
+	</select>
+	
+	<update id="company_modify">
+		UPDATE COMPANY SET
+			
+			COMPANY_NAME =#{COMPANY_NAME},
+			COMPANY_ADDRESS = #{COMPANY_ADDRESS},
+			COMPANY_NUMBER =#{COMPANY_NUMBER}
+		WHERE COMPANY_ID = #{COMPANY_ID}  
+	
+	</update>
+	 
+	
+</mapper>

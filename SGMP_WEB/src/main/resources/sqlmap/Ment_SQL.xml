@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgmp.web.dao.MentDAO">
+	
+	
+	<select id ="mentList" resultType="MentVO">
+		SELECT NO_BID,MENT_ID,MENT_CONTENT,MENT_WRITER,MENT_DATE FROM MENT  WHERE NO_BID = #{NO_BID} ORDER BY MENT_ID
+	</select>
+	
+	<insert id="mentInsert">
+		INSERT INTO MENT(NO_BID,MENT_ID,MENT_CONTENT,MENT_WRITER,MENT_DATE) VALUES (#{NO_BID},cno.nextval,#{MENT_CONTENT},#{MENT_WRITER},sysdate)
+	</insert>
+	
+	<update id ="mentUpdate">
+		UPDATE MENT SET MENT_CONTENT = #{MENT_CONTENT} WHERE MENT_ID = #{Ment_ID} 
+	</update>	
+	
+	<delete id ="mentDelete">
+		DELETE FROM MENT WHERE MENT_ID = #{ment_id}
+	</delete>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgmp.web.dao.NoticeDAO">
+
+	<select id="notice_page" resultType="Integer">
+		select ceil(count(*) / 10) from NOTICE
+	</select>
+	
+	<select id="notice_page_Title" resultType="Integer">
+		select ceil(count(*)/10) from NOTICE where no_title LIKE  '%' ||  #{no_title} || '%' 
+	</select>
+	
+	<select id="notice_list" resultType="NoticeVO">
+		select no_bid,no_rownum,no_title,no_name,no_date,no_hit from NOTICE ORDER BY no_rownum DESC
+	</select>
+	
+	<select id="notice_list_info" resultType="NoticeVO">
+		select no_bid,no_title,no_name,no_content,no_hit from NOTICE WHERE no_bid = #{no_bid}
+	</select>
+	
+	<insert id="notice_write">
+		insert into notice (No_rownum,No_bid, no_name, no_title, no_Content, no_hit,no_Group, no_Step,no_Indent,no_date) values (No_tice_bid.nextval,No_tice_bid.nextval, #{no_name}, #{no_title}, #{no_content}, 0, No_tice_bid.currval, 0, 0,sysdate)
+
+	</insert>
+	
+	<update id="notice_modify">
+		update notice  set no_name = #{no_name},no_title=#{no_title},no_content=#{no_content} where no_bid = #{no_bid}
+	</update>
+	
+	
+	<update id="notice_uphit">
+		update notice  set no_hit = no_hit+1 where no_bid = #{no_bid}
+	</update>
+	
+	<delete id="notice_delete">
+		delete from notice where no_bid = #{no_bid}
+	</delete>
+	
+	<select id="notice_search_title" resultType="NoticeVO">
+		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from notice where no_title LIKE  '%' ||  #{no_title} || '%' order by no_rownum ASC) where RNUM between #{no_rownum} and #{no_rownum}+9
+
+	</select>
+	
+	<select id="notice_search_name" resultType="NoticeVO">
+		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from notice  where no_name LIKE  '%' ||  #{no_name} || '%' order by no_rownum ASC) where RNUM between #{no_rownum} and #{no_rownum}+9
+ 
+	</select>
+	
+	<select id="notice_list_page" resultType="NoticeVO">
+		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from (select * from notice order by no_rownum ASC)) where RNUM between #{no_rownum} and #{no_rownum}+9
+	</select>
+		
+	
+	
+</mapper>
