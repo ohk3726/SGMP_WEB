@@ -30,8 +30,7 @@
 			</tr>
 
 		</c:forEach>
-		<a href="Notice_write">글작성</a>
-		<c:if test="${id=='admin'}">
+		<c:if test="${user_id=='admin'}">
 			<a href="Notice_write">글작성</a>
 		</c:if>
 		

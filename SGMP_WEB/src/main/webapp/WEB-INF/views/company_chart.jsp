@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>BSM</title>
 </head>
-<body style="background:gray;">
+<body style="background:white;">
 	<jsp:include page="header/header.jsp"></jsp:include>
 	<jsp:include page="content/company_chart_view.jsp"></jsp:include>
 </body>

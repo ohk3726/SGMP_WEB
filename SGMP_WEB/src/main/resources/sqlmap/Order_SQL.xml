@@ -22,6 +22,9 @@
 		where t20.prod_id = t10.prod_id(+)
 		and t20.prod_id = t30.prod_id(+)
 		and t20.prod_wearing_company_id = t10.company_id(+)
+		<if test="prod_wearing_company_id != 'admin'">
+			and t20.prod_wearing_company_id = #{prod_wearing_company_id}
+		</if>
 		and t20.prod_wearing_flg = #{prod_wearing_flg}
 		order by to_number(t20.prod_wearing_id) DESC
 	</select> 
@@ -44,291 +47,6 @@
 			#{item}
 		</foreach>
 	</update>
-<!-- 검색 전체 제품명 -->
-	<select id="order_search_all_name" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t10.prod_name like '%'||#{prod_name}||'%'
-		and t20.prod_wearing_condition = #{prod_wearing_condition}
-		and t20.prod_wearing_company_id = #{prod_wearing_company_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 제품명 -->
-	<select id="order_search_name" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t10.prod_name like '%'||#{prod_name}||'%'
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 지점, 제품명 -->
-	<select id="order_search_name_com" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t10.prod_name like '%'||#{prod_name}||'%'
-		and t20.prod_wearing_company_id = #{prod_wearing_company_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 처리상태, 제품명 -->
-	<select id="order_search_name_con" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t10.prod_name like '%'||#{prod_name}||'%'
-		and t20.prod_wearing_condition = #{prod_wearing_condition}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 전체 제품ID -->
-	<select id="order_search_all_id" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_id = #{prod_wearing_id}
-		and t20.prod_wearing_condition = #{prod_wearing_condition}
-		and t20.prod_wearing_company_id = #{prod_wearing_company_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 제품ID -->
-	<select id="order_search_id" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_id = #{prod_wearing_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 지점, 제품ID -->
-	<select id="order_search_id_com" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_id = #{prod_wearing_id}
-		and t20.prod_wearing_company_id = #{prod_wearing_company_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 처리상태, 제품ID -->
-	<select id="order_search_id_con" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_id = #{prod_wearing_id}
-		and t20.prod_wearing_condition = #{prod_wearing_condition}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 처리상태, 지점명 -->
-	<select id="order_search_con_and_com" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_condition = #{prod_wearing_condition}
-		and t20.prod_wearing_company_id = #{prod_wearing_company_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 처리상태 -->
-	<select id="order_search_con" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_condition = #{prod_wearing_condition}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-<!-- 검색 지점명 -->
-	<select id="order_search_com" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_company_id = #{prod_wearing_company_id}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
-	
-<!-- 검색 날짜만 -->
-	<select id="order_search_date" parameterType="String" resultType="OrderVO"> 
-		select
-			t20.prod_wearing_condition,
-			t20.prod_wearing_id,
-			t10.prod_name,
-			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
-			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
-			t20.prod_wearing_cnt,
-			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
-			t20.prod_wearing_company_id
-		from 
-			(select * from product where company_id != 'ROOT') t10,
-			product_wearing t20,
-            (select * from product where company_id = 'ROOT') t30
-		where t20.prod_id = t10.prod_id(+)
-		and t20.prod_id = t30.prod_id(+)
-		and t20.prod_wearing_company_id = t10.company_id(+)
-		and t20.prod_wearing_date between #{date1} and #{date2}
-		and t20.prod_wearing_flg = #{prod_wearing_flg}
-		order by to_number(t20.prod_wearing_id) DESC
-	</select>
 <!-- condition_check -->
 	<select id="order_condition_check" parameterType="String" resultType="int"> 
 		select
@@ -366,39 +84,21 @@
 		</foreach>
 		group by t20.prod_wearing_condition
 	</select>
-<!-- 처리상태 변경 -->
-	<update id="order_cnt_change" parameterType="String">
-		update 
-			product_wearing 
-		set prod_wearing_condition=#{prod_wearing_condition} 
-		where 
-		prod_wearing_id in
-		<foreach collection="check_list" item="item" index="index" separator="," open="(" close=")">
-			#{item}
-		</foreach>
-	</update>
 <!-- 본사 재고수량 변경 -->
 	<update id="order_root_cnt_change" parameterType="String">
-	update
-	    product
-	set
-	    prod_cnt = product.prod_cnt - 
-	    (select a.prod_wearing_cnt
-	    from (select prod_id,
-	            sum(prod_wearing_cnt) as prod_wearing_cnt
-	        from product_wearing
-	        where prod_wearing_id in 
-	        <foreach collection="check_list" item="item" index="index" separator="," open="(" close=")">
-				#{item}
-			</foreach>
-	        group by prod_id)  a 
-	    where product.prod_id = a.prod_id)
-	where product.prod_id = (select prod_id from product_wearing where prod_wearing_id in 
-	<foreach collection="check_list" item="item" index="index" separator="," open="(" close=")">
-		#{item}
-	</foreach>
-	group by prod_id)
-	and product.company_id = 'ROOT'
+		update
+		    product
+		set
+		    prod_cnt = product.prod_cnt - 
+		    (select a.prod_wearing_cnt
+		    from (select prod_id,
+		            sum(prod_wearing_cnt) as prod_wearing_cnt
+		        from product_wearing
+		        where prod_wearing_id = #{prod_wearing_id}
+		        group by prod_id)  a 
+		     where product.prod_id = a.prod_id)
+		where product.prod_id = (select prod_id from product_wearing where prod_wearing_id = #{prod_wearing_id})
+		and product.company_id = (select prod_wearing_release from product_wearing where prod_wearing_id = #{prod_wearing_id})
 	</update>
 <!-- 지점간이동으로 가기전에 확인절차 -->
 	<select id="order_cnt_check" resultType="OrderVO"> 
@@ -453,4 +153,41 @@
 	    prod_wearing_release = #{prod_wearing_release}
 	where prod_wearing_id = #{prod_wearing_id}
 	</update>
+<!-- 전체 리스트 -->
+	<select id="order_list_test" resultType="OrderVO" parameterType="SearchVO"> 
+		select
+			t20.prod_wearing_condition,
+			t20.prod_wearing_id,
+			t10.prod_name,
+			to_char(t10.prod_wearing_price,'FM999,999,999') as prod_wearing_price,
+			to_char(t10.prod_wearing_price * t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_price_calc,
+			to_char(t20.prod_wearing_cnt,'FM999,999,999') as prod_wearing_cnt,
+			to_char(t30.prod_cnt,'FM999,999,999') as prod_root_cnt,
+            t20.prod_wearing_release,
+			t20.prod_wearing_company_id
+		from 
+			(select * from product where company_id != 'ROOT') t10,
+			product_wearing t20,
+            (select t100.prod_wearing_id, t200.prod_id, t200.prod_cnt from product_wearing t100, product t200 where t100.prod_id = t200.prod_id and t100.prod_wearing_release = t200.company_id and t100.prod_wearing_flg = #{prod_wearing_flg}) t30
+		where t20.prod_id = t10.prod_id(+)
+		and t20.prod_wearing_id = t30.prod_wearing_id(+)
+		and t20.prod_wearing_company_id = t10.company_id(+)
+		and t20.prod_wearing_flg = #{prod_wearing_flg}
+		<if test="date1 != null and date1 != '' and date2 != null and date2 != ''">
+			and t20.prod_wearing_date between #{date1} and #{date2}
+		</if>
+		<if test="prod_wearing_condition != null and prod_wearing_condition != '' and prod_wearing_condition != '처리상태선택하기'">
+			and t20.prod_wearing_condition = #{prod_wearing_condition}
+		</if>
+		<if test="prod_wearing_company_id != null and prod_wearing_company_id != '' and prod_wearing_company_id != '지점명선택하기' and prod_wearing_company_id != 'admin'">
+			and t20.prod_wearing_company_id = #{prod_wearing_company_id}
+		</if>
+		<if test="prod_name != null and prod_name != ''">
+			and t10.prod_name like '%'||#{prod_name}||'%'
+		</if>
+		<if test="prod_wearing_id != null and prod_wearing_id != ''">
+			and t20.prod_wearing_id = #{prod_wearing_id}
+		</if>
+		order by to_number(t20.prod_wearing_id) DESC
+	</select>
 </mapper>

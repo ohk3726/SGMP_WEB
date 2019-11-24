@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sgmp.web.service.OrderService;
 import com.sgmp.web.vo.OrderVO;
+import com.sgmp.web.vo.SearchVO;
 
 @Controller
 public class P2PController {
@@ -33,7 +34,10 @@ public class P2PController {
 		HttpSession session = request.getSession();
 		//로그인 세션이 없으면 로그인 페이지로 이동
 		if(session.getAttribute("user_id")!=null) {
-			List<OrderVO> list = orderservice.order_all_list("1");
+			SearchVO vo = new SearchVO();
+			vo.setProd_wearing_flg("1");
+			vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+			List<OrderVO> list = orderservice.order_list_test(vo);
 			List<OrderVO> list_3 = orderservice.order_condition();
 			List<OrderVO> list_4 = orderservice.order_company();
 
@@ -61,100 +65,24 @@ public class P2PController {
 		//System.out.println(date1+date2+sel_condition+sel_company+sel_search+sel_search_keyword);
 
 		if(session.getAttribute("user_id")!=null) {
-			if(!sel_condition.equals("처리상태선택하기") && !sel_company.equals("지점명선택하기") && sel_search.equals("prod_name") && !sel_search_keyword.equals("")) {
-				//order_search_all_com
-				List<OrderVO> list = orderservice.order_search_all_name(date1, date2, sel_condition, sel_company, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("처리상태 선택, 지점명 선택, 제품명으로 검색");
+			SearchVO vo = new SearchVO();
+			vo.setDate1(date1);
+			vo.setDate2(date2);
+			vo.setProd_wearing_company_id(sel_company);
+			vo.setProd_wearing_condition(sel_condition);
+			vo.setProd_wearing_flg("1");
+			if(sel_search.equals("prod_name")) {
+				vo.setProd_name(sel_search_keyword);
 			}
-			
-			else if(sel_condition.equals("처리상태선택하기") && sel_company.equals("지점명선택하기") && sel_search.equals("prod_name") && !sel_search_keyword.equals("")) {
-				//order_search_name
-				List<OrderVO> list = orderservice.order_search_name(date1, date2, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("제품명 검색");
-			}
-			
-			else if(sel_condition.equals("처리상태선택하기") && sel_company.equals("지점명선택하기") && sel_search.equals("prod_wearing_id") && !sel_search_keyword.equals("")) {
-				//order_search_id
-				List<OrderVO> list = orderservice.order_search_id(date1, date2, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("주문ID 검색");
-			}
-			
-			else if(sel_condition.equals("처리상태선택하기") && !sel_company.equals("지점명선택하기") && sel_search.equals("prod_name") && !sel_search_keyword.equals("")) {
-				//order_search_name_com
-				List<OrderVO> list = orderservice.order_search_name_com(date1, date2,sel_company, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("지점명 선택, 제품명 검색");
-			}
-			
-			else if(sel_condition.equals("처리상태선택하기") && !sel_company.equals("지점명선택하기") && sel_search.equals("prod_wearing_id") && !sel_search_keyword.equals("")) {
-				//order_search_id_com
-				List<OrderVO> list = orderservice.order_search_id_com(date1, date2,sel_company, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("지점명선택, 주문ID 검색");
-			}
-			
-			else if(!sel_condition.equals("처리상태선택하기") && sel_company.equals("지점명선택하기") && sel_search.equals("prod_name") && !sel_search_keyword.equals("")) {
-				//order_search_name_con
-				List<OrderVO> list = orderservice.order_search_name_con(date1, date2,sel_condition, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("처리상태선택, 제품명 검색");
-			}
-			
-			else if(!sel_condition.equals("처리상태선택하기") && sel_company.equals("지점명선택하기") && sel_search.equals("prod_wearing_id") && !sel_search_keyword.equals("")) {
-				//order_search_id_con
-				List<OrderVO> list = orderservice.order_search_id_con(date1, date2,sel_condition, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("처리상태선택, 주문ID 검색");
-			}
-			
-			else if(!sel_condition.equals("처리상태선택하기") && !sel_company.equals("지점명선택하기") && sel_search.equals("prod_wearing_id") && !sel_search_keyword.equals("")) {
-				//order_search_all_id
-				List<OrderVO> list = orderservice.order_search_all_id(date1, date2, sel_condition, sel_company, sel_search_keyword,"1");
-				model.addAttribute("list",list);
-				//System.out.println("처리상태선택, 지점명선택,주문ID 검색");
-			}
-			
-			else if(!sel_condition.equals("처리상태선택하기") && !sel_company.equals("지점명선택하기") && sel_search_keyword.equals("")) {
-				//order_search_con_and_com
-				List<OrderVO> list = orderservice.order_search_con_and_com(date1, date2, sel_condition, sel_company,"1");
-				model.addAttribute("list",list);
-				//System.out.println("처리상태선택, 지점명선택");
-			}
-			
-			else if(!sel_condition.equals("처리상태선택하기") && sel_company.equals("지점명선택하기")) {
-				//order_search_con
-				List<OrderVO> list = orderservice.order_search_con(date1, date2, sel_condition,"1");
-				model.addAttribute("list",list);
-				//System.out.println("처리상태선택");
-			}
-			
-			else if(sel_condition.equals("처리상태선택하기") && !sel_company.equals("지점명선택하기")) {
-				//order_search_com
-				List<OrderVO> list = orderservice.order_search_com(date1, date2, sel_company,"1");
-				model.addAttribute("list",list);
-				//System.out.println("지점명선택");
-			}
-			
-			else if(!date1.equals("") && !date2.equals("") && sel_search_keyword.equals("")) {
-				//order_search_date
-				List<OrderVO> list = orderservice.order_search_date(date1, date2,"1");
-				model.addAttribute("list",list);
-				//System.out.println("날짜검색");
-			}
-			
 			else {
-				List<OrderVO> list = orderservice.order_all_list("1");
-				model.addAttribute("list",list);
-				//System.out.println("전체검색");
+				vo.setProd_wearing_id(sel_search_keyword);
 			}
 			
+			List<OrderVO> list = orderservice.order_list_test(vo);
 			List<OrderVO> list_3 = orderservice.order_condition();
 			List<OrderVO> list_4 = orderservice.order_company();
 			
-
+			model.addAttribute("list",list);
 			model.addAttribute("list_3",list_3);
 			model.addAttribute("list_4",list_4);
 			model.addAttribute("date1",date1);
@@ -197,5 +125,51 @@ public class P2PController {
 			}
 			 
 		}
+	}
+	
+	@RequestMapping(value="/order_p2p_condition_change")
+	public String order_p2p_condition_change(HttpServletRequest request,HttpServletResponse response, Model model) throws Exception{
+		String result = "order_goto";
+		HttpSession session = request.getSession();
+		String[] check = request.getParameterValues("condition_check");
+		//getParameter 한글처리
+		String prod_wearing_condition = new String(request.getParameter("change_condition").getBytes("ISO-8859-1"),"UTF-8");
+		if(session.getAttribute("user_id")!=null) {
+			//다른 처리상태를 선택하였을때 체크
+			int temp = orderservice.order_condition_check_1(prod_wearing_condition, check,"1");
+			if(temp == 1) {
+				
+				int temp_1 = orderservice.order_condition_check(prod_wearing_condition, check,"1");
+				//상품준비중인것만 체크
+				if(temp_1 == check.length) {
+						orderservice.order_condition_change("출고완료", check);
+						for(int i=0; i<check.length;i++) {
+							orderservice.order_root_cnt_change(check[i]);
+						}
+				}
+				else {
+					orderservice.order_condition_change(prod_wearing_condition, check);
+				}
+				SearchVO vo = new SearchVO();
+				vo.setProd_wearing_flg("1");
+				vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+				List<OrderVO> list = orderservice.order_list_test(vo);
+				List<OrderVO> list_3 = orderservice.order_condition();
+				List<OrderVO> list_4 = orderservice.order_company();
+			
+				model.addAttribute("list",list);
+				model.addAttribute("list_3",list_3);
+				model.addAttribute("list_4",list_4);
+			}
+			else {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('같은 처리상태를 선택해주세요.');history.back();</script>");
+				out.flush();
+			}
+			result="order_p2p";
+		}
+		
+		return result;
 	}
 }

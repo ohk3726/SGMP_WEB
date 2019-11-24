@@ -3,10 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- post한글처리 -->
 <% request.setCharacterEncoding("UTF-8"); %>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
 	function search(){
 		document.getElementById("search").submit();
@@ -15,11 +11,11 @@
 		location.href="Notice_list_info?no_bid="+no_bid;
 	}
 </script>
-	<div style="padding-top:10%;">	
-		<div style="width:80%;border:1px solid black;" class="mx-auto">
-			<table class="table table-hover">
+	<div style="padding-top:80px;">	
+		<div class="mx-auto" style="background-color:white;height:100%;">
+			<table class="table table-hover" >
 				<thead class="thead-dark">
-					<tr>
+					<tr class="text-center">
 						<th scope="col">번호</th>
 						<th scope="col">제목</th>
 						<th scope="col">이름</th>
@@ -29,7 +25,7 @@
 				</thead>
 				<tbody>
 					<c:forEach items="${list}" var="notice_list">
-						<tr onclick="javascript:select(${notice_list.no_bid});">
+						<tr class="text-center" onclick="javascript:select(${notice_list.no_bid});">
 							<td>${notice_list.no_rownum}</td>
 							<td><c:forEach begin="1" end="${notice_list.no_indent}">-</c:forEach>${notice_list.no_title}</td>
 							<td>${notice_list.no_name}</td>
@@ -37,8 +33,10 @@
 							<td>${notice_list.no_hit}</td>
 						</tr>
 					</c:forEach>
-					<c:if test="${id=='admin'}">
-						<a href="Notice_write">글작성</a>
+					<c:if test="${user_id=='admin'}">
+						<div style="background-color:#464646;text-align:right;">					
+							<a class="btn btn-dark" href="Notice_write">글작성</a>
+						</div>
 					</c:if>
 				</tbody>
 			</table>

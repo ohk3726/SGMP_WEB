@@ -3,147 +3,136 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!-- post한글처리 -->
 <% request.setCharacterEncoding("UTF-8"); %>
-<!-- 스타일 -->
-<link rel="icon" type="image/png" href="resources/img/icons/favicon.ico"/>
-<link rel="stylesheet" type="text/css" href="resources/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="resources/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="resources/vendor/animate/animate.css">
-<link rel="stylesheet" type="text/css" href="resources/vendor/select2/select2.min.css">
-<link rel="stylesheet" type="text/css" href="resources/vendor/perfect-scrollbar/perfect-scrollbar.css">
-<link rel="stylesheet" type="text/css" href="resources/css/util.css">
-<link rel="stylesheet" type="text/css" href="resources/css/main.css?ver=1">
 <!-- 검색버튼 스크립트 -->
 <script>
 	function condition_change(){
+		var count = 0;
+		var f1=document.getElementById("condition_change")
+		var length=f1.condition_check.length;
+		var i=0;
+		while(i<length){
+			if(f1.condition_check[i].checked){
+				count += count+1;
+			}
+			i++;
+		}
+		if(count == 0){
+			alert("목록을 체크해주세요");
+			return false;
+		}
+		
 		var condition_changed = document.getElementById("prod_wearing_condition");
 		document.getElementById("change_condition").value = condition_changed.options[condition_changed.selectedIndex].value;
+		
+		if(document.getElementById("change_condition").value == "no"){
+			alert("변경 상태를 선택해주세요");
+			return false;
+		}
+		
 		document.getElementById("condition_change").submit();
 	}
 	function search_1(){
 		var sel_condition = document.getElementById("selectCondition1");
 		document.getElementById("selectCondition").value = sel_condition.options[sel_condition.selectedIndex].value;
-		var sel_company = document.getElementById("selectCompany1");
-		document.getElementById("selectCompany").value = sel_company.options[sel_company.selectedIndex].value;
+		<c:if test="${user_id=='admin'}">
+			var sel_company = document.getElementById("selectCompany1");
+			document.getElementById("selectCompany").value = sel_company.options[sel_company.selectedIndex].value;
+		</c:if>
 		var sel_search = document.getElementById("search_select");
 		document.getElementById("searchSelect").value = sel_search.options[sel_search.selectedIndex].value;
 		document.getElementById("search").submit();
 	}
 </script>	
+<div style="padding-top:80px;">
 <!-- 검색 -->
-	<div style="float:left;width:100%;background-color:white;text-align:center;">
+	<div style="background-color:#464646;text-align:right;">
+		<a class="btn btn-dark" data-toggle="collapse" href="#search_page" aria-expanded="false" aria-controls="search_page">검색창</a>
+		<c:if test="${user_id!='admin'}"><a class="btn btn-dark" data-toggle="collapse" href="#condition_change_page" aria-expanded="false" aria-controls="condition_change_page">처리상태변경</a></c:if>			
+	</div>
+	<div class="collapse" id="search_page">
 		<form action="search_p2p" method="post" id="search">
-			<br>
-			&nbsp&nbsp&nbsp
-			날짜
-			<input type="date" name="date1" id="date1" style="display:inline-block;border:1px solid black;" value="${date1}">
-			 ~ 
-			<input type="date" name="date2" id="date2" style="display:inline-block;border:1px solid black;" value="${date2}">
-			&nbsp&nbsp&nbsp
-			<select name="selectCondition1" id="selectCondition1">
-				<option value="처리상태선택하기" selected="selected">처리상태선택하기</option>
-				<c:forEach var="list_3" items="${list_3}">
-					<option value="${list_3.prod_wearing_condition}" id ="option_id">${list_3.prod_wearing_condition}</option>
-				</c:forEach>
-			</select>
-			<input type="hidden" name="selectCondition" id="selectCondition">
-			<select name="selectCompany1" id="selectCompany1">
-				<option value="지점명선택하기" selected="selected">지점명선택하기</option>
-				<c:forEach var="list_4" items="${list_4}">
-					<option value="${list_4.prod_wearing_company_id}" id ="option_id">${list_4.prod_wearing_company_id}</option>
-				</c:forEach>
-			</select>
-			<input type="hidden" name="selectCompany" id="selectCompany">
-			<select id="search_select">
-				<option value="prod_name" selected="selected">제품명</option>
-				<option value="prod_wearing_id">주문ID</option>
-			</select>
-			<input type="hidden" name="searchSelect" id="searchSelect">
-			<input type="text" name="search_keyword" style="display:inline-block;width:300px;border:1px solid black;"  onkeypress="if(event.keyCode==13){javascript:search_1();}">
-			<input type="button" value="검색" style="display:inline-block;border:1px solid black;" onclick="javascript:search_1();">
-			<br><br>
+			<div class="input-group">
+				<input type="text" class="form-control" value="날짜" readonly>
+				<input type="date" name="date1" id="date1" class="form-control" value="${date1}">
+				<input type="date" name="date2" id="date2" class="form-control" value="${date2}">
+				<select name="selectCondition1" id="selectCondition1" class="custom-select">
+					<option value="처리상태선택하기" selected="selected">처리상태선택하기</option>
+					<c:forEach var="list_3" items="${list_3}">
+						<option value="${list_3.prod_wearing_condition}" id ="option_id">${list_3.prod_wearing_condition}</option>
+					</c:forEach>
+				</select>
+				<input type="hidden" name="selectCondition" id="selectCondition">
+				<c:if test="${user_id=='admin'}">
+				<select name="selectCompany1" id="selectCompany1" class="custom-select" >
+					<option value="지점명선택하기" selected="selected">지점명선택하기</option>
+					<c:forEach var="list_4" items="${list_4}">
+						<option value="${list_4.prod_wearing_company_id}" id ="option_id">${list_4.prod_wearing_company_id}</option>
+					</c:forEach>
+				</select>
+				</c:if>
+				<input type="hidden" name="selectCompany" id="selectCompany">
+				<select id="search_select" class="custom-select">
+					<option value="prod_name" selected="selected">제품명</option>
+					<option value="prod_wearing_id">주문ID</option>
+				</select>
+				<input type="text" name="search_keyword" class="custom-select" style="width:300px;"  onkeypress="if(event.keyCode==13){javascript:search_1();}">
+				<input type="button" value="검색" class="btn btn-secondary" onclick="javascript:search_1();">
+				<input type="hidden" name="searchSelect" id="searchSelect">
+			</div>
 		</form>
 	</div>
 <!-- 처리상태변경 -->
-	<div style="float:left;width:100%;background-color:white;text-align:center;">
-		<br>
-		<select id="prod_wearing_condition">
-			<option>변경 할 처리상태를 선택하세요.</option>
-			<option value="출고완료">출고완료</option>
-			<option value="배송중">배송중</option>
-			<option value="배송완료">배송완료</option>
-		</select>
-		<input type="button" value="변경" style="display:inline-block;border:1px solid black;" onclick="javascript:condition_change();">
-		<br><br>
+	<div style="float:left;width:100%;background-color:#464646;text-align:center;"  class="collapse" id="condition_change_page">
+		<div class="input-group">
+			<select id="prod_wearing_condition" class="form-control">
+				<option value="no">변경 할 처리상태를 선택하세요.</option>
+				<option value="출고완료">출고완료</option>
+				<option value="배송중">배송중</option>
+				<option value="배송완료">배송완료</option>
+			</select>
+			<input type="button" value="변경" class="btn btn-secondary" onclick="javascript:condition_change();">
+		</div>
 	</div>
-	
 	<script>
 		document.getElementById("date1").valueAsDate = new Date();
 		document.getElementById("date2").valueAsDate = new Date();
 	</script>
-
 <!-- 테이블 -->
-	<div class="limiter">
-		<div class="container-table100">
-			<div class="wrap-table100">
-				<div class="table100 ver1 m-b-110">
-					<div class="table100-head">
-						<table>
-							<thead>
-							<tr class="row100 head">
-								<th class="cell100 column1">선택
-								<th class="cell100 column2">처리상태
-								<th class="cell100 column3">주문ID
-								<th class="cell100 column4">제품명
-								<th class="cell100 column5">단가
-								<th class="cell100 column6">주문가격
-								<th class="cell100 column7">주문수량
-								<th class="cell100 column8">본사재고수량
-								<th class="cell100 column9">지점명
-							</thead>
-						</table>
-					</div>
-					<div class="table100-body js-pscroll">
-						<form action="condition_change" method="post" id="condition_change">
-							<input type="hidden" name="change_condition" id="change_condition">
-							<table>
-								<tbody>
-									<c:forEach items="${list}" var="order_list">
-										<tr class="row100 body">
-											<td class="cell100 column1" style="padding-left:80px;"><input type="checkbox" name="condition_check" value="${order_list.prod_wearing_id}"></td>
-											<td class="cell100 column2"><input type="text" name="prod_wearing_condition" value="${order_list.prod_wearing_condition}" readonly></td>
-											<td class="cell100 column3"><input type="text" name="prod_wearing_id" value="${order_list.prod_wearing_id}" readonly></td>
-											<td class="cell100 column4"><input type="text" name="prod_name" value="${order_list.prod_name}" readonly></td>
-											<td class="cell100 column5"><input type="text" name="prod_wearing_price" value="${order_list.prod_wearing_price}" readonly></td>
-											<td class="cell100 column6"><input type="text" name="prod_wearing_price_calc" value="${order_list.prod_wearing_price_calc}" readonly></td>
-											<td class="cell100 column7"><input type="text" name="prod_wearing_cnt" value="${order_list.prod_wearing_cnt}" readonly></td>
-											<td class="cell100 column8"><input type="text" name="prod_root_cnt" value="${order_list.prod_root_cnt}" readonly></td>
-											<td class="cell100 column9"><input type="text" name="prod_wearing_company_id" value="${order_list.prod_wearing_company_id}" readonly></td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div class="mx-auto" style="background-color:white;">
+		<table class="table table-hover responsive-table">
+			<thead class="thead-dark">
+				<tr class="text-center">
+					<th scope="col">선택
+					<th scope="col">처리상태
+					<th scope="col">주문ID
+					<th scope="col">제품명
+					<th scope="col">단가
+					<th scope="col">주문가격
+					<th scope="col">주문수량
+					<th scope="col">출고지점재고수량
+					<th scope="col">출고지점
+					<th scope="col">주문지점명
+				</tr>
+			</thead>
+			<tbody>
+				<form action="order_p2p_condition_change" method="post" id="condition_change">
+					<input type="hidden" name="change_condition" id="change_condition">
+						<c:forEach items="${list}" var="order_list">
+							<tr class="text-center">
+								<td><input type="checkbox" name="condition_check" value="${order_list.prod_wearing_id}"></td>
+								<td>${order_list.prod_wearing_condition}<input type="hidden" name="prod_wearing_condition" value="${order_list.prod_wearing_condition}" readonly></td>
+								<td>${order_list.prod_wearing_id}<input type="hidden" name="prod_wearing_id" value="${order_list.prod_wearing_id}" readonly></td>
+								<td>${order_list.prod_name}<input type="hidden" name="prod_name" value="${order_list.prod_name}" readonly></td>
+								<td>${order_list.prod_wearing_price}<input type="hidden" name="prod_wearing_price" value="${order_list.prod_wearing_price}" readonly></td>
+								<td>${order_list.prod_wearing_price_calc}<input type="hidden" name="prod_wearing_price_calc" value="${order_list.prod_wearing_price_calc}" readonly></td>
+								<td>${order_list.prod_wearing_cnt}<input type="hidden" name="prod_wearing_cnt" value="${order_list.prod_wearing_cnt}" readonly></td>
+								<td>${order_list.prod_root_cnt}<input type="hidden" name="prod_root_cnt" value="${order_list.prod_root_cnt}" readonly></td>
+								<td>${order_list.prod_wearing_release}<input type="hidden" name="prod_wearing_release" value="${order_list.prod_wearing_release}" readonly></td>
+								<td>${order_list.prod_wearing_company_id}<input type="hidden" name="prod_wearing_company_id" value="${order_list.prod_wearing_company_id}" readonly></td>
+							</tr>
+						</c:forEach>
+				</form>
+			</tbody>
+		</table>
 	</div>
-<!-- 테이블 스크립트 -->
-	<script src="resources/vendor/jquery/jquery-3.2.1.min.js"></script>
-	<script src="resources/vendor/bootstrap/js/popper.js"></script>
-	<script src="resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="resources/vendor/select2/select2.min.js"></script>
-	<script src="resources/vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-<!-- 테이블 스크립트 -->
-	<script>
-		$('.js-pscroll').each(function(){
-			var ps = new PerfectScrollbar(this);
-
-			$(window).on('resize', function(){
-				ps.update();
-			})
-		});	
-	</script>
-	<script src="resources/js/main.js"></script>
+</div>

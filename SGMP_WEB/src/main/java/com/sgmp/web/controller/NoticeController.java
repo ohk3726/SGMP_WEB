@@ -48,8 +48,7 @@ public class NoticeController {
 	}
 
 	@RequestMapping(value = "Notice_write")
-	public String Notice_write() throws Exception {
-
+	public String Notice_write(HttpServletRequest request) throws Exception {
 		return "Notice_write";
 	}
 

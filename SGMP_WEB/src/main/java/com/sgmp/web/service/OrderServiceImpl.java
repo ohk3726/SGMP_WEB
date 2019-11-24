@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sgmp.web.dao.OrderDAO;
 import com.sgmp.web.vo.OrderVO;
 import com.sgmp.web.vo.ProductVO;
+import com.sgmp.web.vo.SearchVO;
 
 @Service("OrderService")
 public class OrderServiceImpl implements OrderService{
@@ -41,78 +42,7 @@ public class OrderServiceImpl implements OrderService{
 	public int order_condition_change(String prod_wearing_condition, String[] check_list) throws Exception{
 		return orderDAO.order_condition_change(prod_wearing_condition, check_list);
 	}
-	//검색부분
-	@Override
-	@Transactional
-	public List order_search_all_name(String date1,String date2,String prod_wearing_condition,String prod_wearing_company,String prod_wearing_name, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_all_name( date1, date2, prod_wearing_condition, prod_wearing_company, prod_wearing_name,prod_wearing_flg);
-	}
 	
-	@Override
-	@Transactional
-	public List order_search_all_id(String date1,String date2,String prod_wearing_condition,String prod_wearing_company,String prod_wearing_id, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_all_id( date1, date2, prod_wearing_condition, prod_wearing_company, prod_wearing_id,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_name(String date1,String date2,String prod_wearing_name, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_name( date1, date2, prod_wearing_name,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_id(String date1,String date2,String prod_wearing_id, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_id( date1, date2, prod_wearing_id,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_name_com(String date1,String date2,String prod_wearing_company,String prod_wearing_name, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_name( date1, date2, prod_wearing_name,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_id_com(String date1,String date2,String prod_wearing_company,String prod_wearing_id, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_id_com( date1, date2, prod_wearing_company, prod_wearing_id,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_name_con(String date1,String date2,String prod_wearing_condition,String prod_wearing_name, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_name_con( date1, date2, prod_wearing_condition,prod_wearing_name,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_id_con(String date1,String date2,String prod_wearing_condition,String prod_wearing_id, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_id_con( date1, date2, prod_wearing_condition, prod_wearing_id,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_con_and_com(String date1,String date2,String prod_wearing_condition,String prod_wearing_company, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_con_and_com( date1, date2, prod_wearing_condition, prod_wearing_company,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_con(String date1,String date2,String prod_wearing_condition, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_con( date1, date2, prod_wearing_condition,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_com(String date1,String date2,String prod_wearing_company, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_com( date1, date2, prod_wearing_company,prod_wearing_flg);
-	}
-	
-	@Override
-	@Transactional
-	public List order_search_date(String date1,String date2, String prod_wearing_flg) throws Exception{
-		return orderDAO.order_search_date( date1, date2,prod_wearing_flg);
-	}
 	//처리상태체크 상품준비중인것만 체크
 	@Override
 	@Transactional
@@ -128,8 +58,8 @@ public class OrderServiceImpl implements OrderService{
 	//본사 재고수량 변경
 	@Override
 	@Transactional
-	public int order_root_cnt_change(String[] check_list) throws Exception{
-		return orderDAO.order_root_cnt_change(check_list);
+	public int order_root_cnt_change(String prod_wearing_id) throws Exception{
+		return orderDAO.order_root_cnt_change(prod_wearing_id);
 	}
 	//지점간이동으로 가기전에 확인절차
 	@Override
@@ -154,5 +84,17 @@ public class OrderServiceImpl implements OrderService{
 	@Transactional
 	public int order_p2p_goto(OrderVO vo) throws Exception{
 		return orderDAO.order_p2p_goto(vo);
+	}
+	//p2p전체리스트
+	@Override
+	@Transactional
+	public List order_p2p_list(String prod_wearing_flg) throws Exception{
+		return orderDAO.order_p2p_list(prod_wearing_flg);
+	}
+	//전체리스트
+	@Override
+	@Transactional
+	public List order_list_test(SearchVO vo) throws Exception{
+		return orderDAO.order_list_test(vo);
 	}
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sgmp.web.dao.MainDAO">
+	<select id="main_bbs" resultType="NoticeVO">
+		select
+			*
+		from
+			(select * from notice order by to_number(no_bid) desc)
+		where <![CDATA[ rownum <= 5 ]]>
+	</select>
+	
+	<select id="main_cnt_min" resultType="ProductVO">
+		select
+			prod_id,
+			prod_name,
+			prod_cnt,
+			prod_cnt_min
+		from
+			product
+		where prod_cnt <![CDATA[<=]]> prod_cnt_min
+		<if test="company_id != 'admin'">
+			and company_id = #{company_id}
+		</if>
+	</select>
+	
+	<select id="main_top_list" resultType="ProductVO">
+		select
+			t20.prod_id,
+			t20.prod_name,
+			t10.sale_cnt as prod_cnt,
+			to_char((t10.sale_cnt * t20.prod_price),'FM999,999,999') as prod_price
+		from
+			(select prod_id, sum(sale_cnt) as sale_cnt 
+			from sale 
+			where sale_date between sysdate-7 and sysdate
+			<if test="company_id != 'admin'">
+				and company_id = #{company_id}
+			</if>
+			group by prod_id) t10,
+			(select * from product where company_id = 'ROOT') t20
+		where t10.prod_id = t20.prod_id
+		order by to_char((t10.sale_cnt * t20.prod_price),'FM999,999,999') desc
+	</select>
+	
+	<select id="main_chart" resultType="ProductVO">
+		select *
+		from
+			(select
+			to_char(t10.sale_date,'YYYY-MM-dd') as prod_date,
+			sum(t10.sale_cnt * t20.prod_price) as prod_price
+			from
+			sale t10,
+			(select * from product where company_id = 'ROOT') t20
+			where t10.prod_id = t20.prod_id
+			<if test="company_id != 'admin'">
+				and t10.company_id = #{company_id}
+			</if>
+			and t10.sale_date between sysdate-7 and sysdate
+			group by t10.sale_date
+			order by t10.sale_date desc)
+		where <![CDATA[ rownum <= 5 ]]>
+		order by prod_date asc
+	</select>
+</mapper>

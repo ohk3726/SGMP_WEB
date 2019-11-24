@@ -37,7 +37,7 @@ public class LoginController {
 		check = loginservice.check(vo);
 		if(check==1) {
 			session.setAttribute("user_id", user_id);
-			result="main";
+			result="redirect:main";
 		}
 		else {
 			response.setContentType("text/html; charset=UTF-8");
