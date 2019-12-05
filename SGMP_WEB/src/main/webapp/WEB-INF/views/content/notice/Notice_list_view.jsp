@@ -11,28 +11,28 @@
 		location.href="Notice_list_info?no_bid="+no_bid;
 	}
 </script>
-	<div style="padding-top:80px;">	
-		<div class="mx-auto" style="background-color:white;height:100%;">
-			<table class="table table-hover" >
-				<thead class="thead-dark">
-					<tr class="text-center">
-						<th scope="col">번호</th>
-						<th scope="col">제목</th>
-						<th scope="col">이름</th>
-						<th scope="col">날짜</th>
-						<th scope="col">조회수</th>
+<div style="padding-top:80px;">	
+	<div class="mx-auto" style="background-color:white;height:100%;">
+		<table class="table table-hover" >
+			<thead class="thead-dark">
+				<tr class="text-center">
+					<th scope="col">번호</th>
+					<th scope="col">제목</th>
+					<th scope="col">이름</th>
+					<th scope="col">날짜</th>
+					<th scope="col">조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${list}" var="notice_list">
+					<tr class="text-center" onclick="javascript:select(${notice_list.no_bid});">
+						<td>${notice_list.no_rownum}</td>
+						<td><c:forEach begin="1" end="${notice_list.no_indent}">-</c:forEach>${notice_list.no_title}</td>
+						<td>${notice_list.no_name}</td>
+						<td>${notice_list.no_date}</td>
+						<td>${notice_list.no_hit}</td>
 					</tr>
-				</thead>
-				<tbody>
-					<c:forEach items="${list}" var="notice_list">
-						<tr class="text-center" onclick="javascript:select(${notice_list.no_bid});">
-							<td>${notice_list.no_rownum}</td>
-							<td><c:forEach begin="1" end="${notice_list.no_indent}">-</c:forEach>${notice_list.no_title}</td>
-							<td>${notice_list.no_name}</td>
-							<td>${notice_list.no_date}</td>
-							<td>${notice_list.no_hit}</td>
-						</tr>
-					</c:forEach>
+				</c:forEach>
 					<c:if test="${user_id=='admin'}">
 						<div style="background-color:#464646;text-align:right;">					
 							<a class="btn btn-dark" href="Notice_write">글작성</a>

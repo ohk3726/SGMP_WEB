@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="notice_list" resultType="NoticeVO">
-		select no_bid,no_rownum,no_title,no_name,no_date,no_hit from NOTICE ORDER BY no_rownum DESC
+		select no_bid,no_rownum,no_title,no_name,no_date,no_hit from NOTICE ORDER BY no_rownum ASC
 	</select>
 	
 	<select id="notice_list_info" resultType="NoticeVO">
@@ -39,17 +39,17 @@
 	</delete>
 	
 	<select id="notice_search_title" resultType="NoticeVO">
-		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from notice where no_title LIKE  '%' ||  #{no_title} || '%' order by no_rownum ASC) where RNUM between #{no_rownum} and #{no_rownum}+9
+		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from notice where no_title LIKE  '%' ||  #{no_title} || '%' order by no_rownum DESC) where RNUM between #{no_rownum} and #{no_rownum}+9
 
 	</select>
 	
 	<select id="notice_search_name" resultType="NoticeVO">
-		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from notice  where no_name LIKE  '%' ||  #{no_name} || '%' order by no_rownum ASC) where RNUM between #{no_rownum} and #{no_rownum}+9
+		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from notice  where no_name LIKE  '%' ||  #{no_name} || '%' order by no_rownum DESC) where RNUM between #{no_rownum} and #{no_rownum}+9
  
 	</select>
 	
 	<select id="notice_list_page" resultType="NoticeVO">
-		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from (select * from notice order by no_rownum ASC)) where RNUM between #{no_rownum} and #{no_rownum}+9
+		SELECT no_bid,no_rownum,no_title,no_name,no_date,no_hit FROM (select ROWNUM AS RNUM, no_bid,no_rownum,no_title,no_name,no_date,no_hit from (select * from notice order by no_rownum DESC)) where RNUM between #{no_rownum} and #{no_rownum}+9
 	</select>
 		
 	

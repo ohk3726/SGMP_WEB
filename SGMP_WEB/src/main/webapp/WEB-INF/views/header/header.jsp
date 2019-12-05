@@ -22,12 +22,16 @@
 				</div>
 			</li>
 			
-			<li class="nav-item active">
-				<a class="nav-link" href="/web/ProductList">상품 관리</a>
+			<li class="nav-item">
+				<a class="nav-link" href="/web/productList">상품 관리</a>
 			</li>
 			
-			<li class="nav-item">
-				<a class="nav-link" href="/web/company_chart">매출 관리</a>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">통계</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="/web/company_chart">매출 통계</a>
+					<a class="dropdown-item" href="#">지점간 이동 통계</a>
+				</div>
 			</li>
 			
 			<li class="nav-item">

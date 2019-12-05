@@ -54,10 +54,10 @@ public class NoticeController {
 
 	@RequestMapping(value = "modify")
 	public String modify(Model model, HttpServletRequest request) throws Exception {
-		String Name = request.getParameter("bName");
-		String Title = request.getParameter("bTitle");
-		String Content = request.getParameter("bContent");
-		String bid = request.getParameter("bId");
+		String Name = new String(request.getParameter("bName").getBytes("ISO-8859-1"),"UTF-8");
+		String Title = new String(request.getParameter("bTitle").getBytes("ISO-8859-1"),"UTF-8");
+		String Content = new String(request.getParameter("bContent").getBytes("ISO-8859-1"),"UTF-8");
+		String bid = new String(request.getParameter("bId").getBytes("ISO-8859-1"),"UTF-8");
 
 		NoticeVO vo = new NoticeVO();
 		vo.setNo_name(Name);
@@ -77,7 +77,6 @@ public class NoticeController {
 		}
 
 		int pagenum = noticeservice.notice_page();
-		System.out.println(pagenum);
 		model.addAttribute("pagenum", pagenum);
 		int est_bid = Integer.parseInt(est_id);
 
@@ -91,10 +90,9 @@ public class NoticeController {
 
 	@RequestMapping(value = "write")
 	public String write(HttpServletRequest request, Model model) throws Exception {
-		System.out.println(request.getParameter("bName"));
-		String Name = request.getParameter("bName");
-		String Title = request.getParameter("bTitle");
-		String Content = request.getParameter("bContent");
+		String Name = new String(request.getParameter("bName").getBytes("ISO-8859-1"),"UTF-8");
+		String Title = new String(request.getParameter("bTitle").getBytes("ISO-8859-1"),"UTF-8");
+		String Content = new String(request.getParameter("bContent").getBytes("ISO-8859-1"),"UTF-8");
 
 		NoticeVO vo = new NoticeVO();
 		vo.setNo_name(Name);
@@ -102,7 +100,6 @@ public class NoticeController {
 		vo.setNo_content(Content);
 
 		noticeservice.notice_write(vo);
-		System.out.println("�Է¿Ϸ�");
 		return "Notice_write";
 	}
 
@@ -125,12 +122,8 @@ public class NoticeController {
 
 	@RequestMapping(value = "Notice_delete")
 	public String Notice_Delete(Model model, HttpServletRequest request) throws Exception {
-		System.out.println(request.getParameter("no_bid"));
-
 		NoticeVO vo = new NoticeVO();
 		vo.setNo_bid(request.getParameter("no_bid"));
-
-		System.out.println("�Խñ��� �����Ǿ����ϴ�.");
 
 		if (noticeservice.notice_delete(vo) == 1) {
 			String viewpage = "1";
@@ -142,7 +135,6 @@ public class NoticeController {
 			}
 
 			int pagenum = noticeservice.notice_page();
-			System.out.println(pagenum);
 			model.addAttribute("pagenum", pagenum);
 			int est_bid = Integer.parseInt(est_id);
 
@@ -162,7 +154,8 @@ public class NoticeController {
 	@RequestMapping(value = "Notice_Search")
 	public String Notice_Search(Model model, HttpServletRequest request) throws Exception {
 	
-		String PSW = request.getParameter("product_search_word");
+		String PSW = new String(request.getParameter("product_search_word").getBytes("ISO-8859-1"),"UTF-8");
+		
 	
 		NoticeVO vo = new NoticeVO();
 
@@ -187,10 +180,7 @@ public class NoticeController {
 			List<NoticeVO> list = noticeservice.notice_search_title(vo);
 			model.addAttribute("list", list);
 			
-			
-			System.out.println("���������� �˻��Ǿ����ϴ�.");
 
-	
 		return "Notice_list_search";
 	}
 

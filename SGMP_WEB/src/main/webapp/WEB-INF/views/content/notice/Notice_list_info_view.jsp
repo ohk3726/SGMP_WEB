@@ -164,24 +164,26 @@ function changeDate(date){
 $(document).ready(function(){
 	var bid = document.getElementById("bId").value;
 	listReply2(bid);
-	
-	$("#btnReply").click(function(){
-		var replytext = $("#replytext").val();
-		var no_bid="{bId.value}";
-		
-		var param="replytext=" + replytext+" &no_bid="+bid;
-		
-		$.ajax({
-			type: "post",
-			url : "insert",
-			data: param,
-			success : function(bid){
+});
 
-				listReply2(bid);
-			}
-		});
-	});
+$("#btnReply").click(function(){
+	var bid = document.getElementById("bId").value;
+	var replytext = $("#replytext").val();
+	var no_bid="{bId.value}";
 	
+	var param="replytext=" + replytext+" &no_bid="+bid;
+	
+	$.ajax({
+		type: "post",
+		url : "insert",
+		data: param,
+		success : function(data){
+			listReply2(bid);
+		},
+		error:function(request,status,error){
+	        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+	       }
+	});
 });
 
 </script>

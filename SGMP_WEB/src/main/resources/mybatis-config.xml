@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias alias="MentVO" type="com.sgmp.web.vo.MentVO"/>
 		<typeAlias alias="NoticeVO" type="com.sgmp.web.vo.NoticeVO"/>
 		<typeAlias alias="searchVO" type="com.sgmp.web.vo.SearchVO"/>
+		<typeAlias alias="customerVO" type="com.sgmp.web.vo.CustomerVO"/>
 	</typeAliases> 
 	
 </configuration>

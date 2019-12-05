@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta charset="UTF-8">
 <title>BSM</title>
 </head>
-<body style="background-color:white">
+<body style="background:gray;">
 	<jsp:include page="header/header.jsp"></jsp:include>
-	<jsp:include page="content/order/order_search_p2p_view.jsp"></jsp:include>
+	<jsp:include page="content/product/productList_search_view.jsp"></jsp:include>
 </body>
 </html>

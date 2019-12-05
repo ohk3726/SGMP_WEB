@@ -23,6 +23,9 @@
 		<if test="company_id != 'admin'">
 			and company_id = #{company_id}
 		</if>
+		<if test="company_id == 'admin'">
+			and company_id = 'ROOT'
+		</if>
 	</select>
 	
 	<select id="main_top_list" resultType="ProductVO">

@@ -77,7 +77,6 @@ public class ChartController {
 		//로그인 세션이 없으면 로그인 페이지로 이동
 		if(session.getAttribute("user_id")!=null) {
 			String prod_main_category = request.getParameter("prod_main_category");
-			System.out.println(prod_main_category);
 			ProductVO vo = new ProductVO();
 			vo.setCompany_id(session.getAttribute("user_id").toString());
 			vo.setProd_main_category(prod_main_category);
