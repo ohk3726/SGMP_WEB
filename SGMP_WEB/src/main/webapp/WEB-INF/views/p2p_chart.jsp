@@ -8,6 +8,6 @@
 </head>
 <body style="background:white;">
 	<jsp:include page="header/header.jsp"></jsp:include>
-	<jsp:include page="content/chart/company_chart_view.jsp"></jsp:include>
+	<jsp:include page="content/chart/p2p_chart_view.jsp"></jsp:include>
 </body>
 </html>

@@ -11,8 +11,15 @@ public class OrderVO {
 	private String prod_wearing_id;
 	private String prod_wearing_flg;
 	private String prod_wearing_release;
+	private String prod_id;
 	
 	
+	public String getProd_id() {
+		return prod_id;
+	}
+	public void setProd_id(String prod_id) {
+		this.prod_id = prod_id;
+	}
 	public String getProd_wearing_flg() {
 		return prod_wearing_flg;
 	}

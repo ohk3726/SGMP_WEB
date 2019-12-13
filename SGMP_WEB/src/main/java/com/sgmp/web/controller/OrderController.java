@@ -1,15 +1,24 @@
 package com.sgmp.web.controller;
 
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -180,5 +189,140 @@ public class OrderController {
 		return result;
 	}
 	
-	
+	@RequestMapping(value="excel_list")
+	public void excel_list(HttpServletResponse response, Model model,HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		Date date = new Date();
+		SimpleDateFormat format1; 
+		format1 = new SimpleDateFormat("yyyy-MM-dd");
+		String fileName="";
+		OrderVO vo = new OrderVO();
+		
+		if(session.getAttribute("user_id")!=null) {
+			if(session.getAttribute("user_id").equals("admin")) {
+				vo.setProd_wearing_company_id("ROOT");
+				fileName = format1.format(date)+"-출고리스트";
+				fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1"); 
+			}
+			else {
+				vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+				fileName = format1.format(date)+"-입고리스트";
+				fileName = new String(fileName.getBytes("UTF-8"), "ISO-8859-1"); 
+			}
+			
+			List<Map> list_1 = orderservice.excel_list(vo);
+
+			
+		    HSSFWorkbook objWorkBook = new HSSFWorkbook();
+		    HSSFSheet objSheet = null;
+		    HSSFRow objRow = null;
+		    HSSFCell objCell = null;       //셀 생성
+		    
+		  //제목 폰트
+			  HSSFFont font = objWorkBook.createFont();
+			  font.setFontHeightInPoints((short)9);
+			  font.setBoldweight((short)font.BOLDWEIGHT_BOLD);
+			  font.setFontName("맑은고딕");
+
+			  //제목 스타일에 폰트 적용, 정렬
+			  HSSFCellStyle styleHd = objWorkBook.createCellStyle();    //제목 스타일
+			  styleHd.setFont(font);
+			  styleHd.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			  styleHd.setVerticalAlignment (HSSFCellStyle.VERTICAL_CENTER);
+
+			  objSheet = objWorkBook.createSheet("첫번째 시트");     //워크시트 생성
+
+			  // 1행
+			  objRow = objSheet.createRow(0);
+			  objRow.setHeight ((short) 0x150);
+
+			  objCell = objRow.createCell(0);
+			  objCell.setCellValue("주문ID");
+			  objCell.setCellStyle(styleHd);
+
+			  objCell = objRow.createCell(1);
+			  objCell.setCellValue("제품ID");
+			  objCell.setCellStyle(styleHd);
+			  
+			  objCell = objRow.createCell(2);
+			  objCell.setCellValue("제품명");
+			  objCell.setCellStyle(styleHd);
+			  
+			  if(session.getAttribute("user_id").equals("admin")) {
+				  objCell = objRow.createCell(3);
+				  objCell.setCellValue("출고수량");
+				  objCell.setCellStyle(styleHd);
+				  
+				  objCell = objRow.createCell(4);
+				  objCell.setCellValue("배송지점");
+				  objCell.setCellStyle(styleHd);
+			  }
+			  else {
+				  objCell = objRow.createCell(3);
+				  objCell.setCellValue("입고수량");
+				  objCell.setCellStyle(styleHd);
+				  
+				  objCell = objRow.createCell(4);
+				  objCell.setCellValue("출고지점");
+				  objCell.setCellStyle(styleHd);
+			  }
+			  
+			  
+
+			  
+			  // 2행
+			  int index = 1;
+			  for (Map map : list_1) {
+				
+			    objRow = objSheet.createRow(index);
+			    objRow.setHeight((short) 0x150);
+
+			    objCell = objRow.createCell(0);
+			    objCell.setCellValue((String)map.get("prod_wearing_id"));
+			    objCell.setCellStyle(styleHd);
+
+			    objCell = objRow.createCell(1);
+			    objCell.setCellValue((String)map.get("prod_id"));
+			    objCell.setCellStyle(styleHd);
+
+			    objCell = objRow.createCell(2);
+			    objCell.setCellValue((String)map.get("prod_name"));
+			    objCell.setCellStyle(styleHd);
+			    
+			    if(session.getAttribute("user_id").equals("admin")) {
+			    	objCell = objRow.createCell(3);
+				    objCell.setCellValue((String)map.get("prod_wearing_cnt"));
+				    objCell.setCellStyle(styleHd);
+				    
+				    objCell = objRow.createCell(4);
+				    objCell.setCellValue((String)map.get("prod_wearing_company_id"));
+				    objCell.setCellStyle(styleHd);
+				  }
+				  else {
+					  objCell = objRow.createCell(3);
+					    objCell.setCellValue((String)map.get("prod_wearing_cnt"));
+					    objCell.setCellStyle(styleHd);
+					    
+					    objCell = objRow.createCell(4);
+					    objCell.setCellValue((String)map.get("prod_wearing_release"));
+					    objCell.setCellStyle(styleHd);
+				  }
+			    
+			    
+			    
+			    index++;
+			  }
+
+
+			  response.setContentType("Application/Msexcel");
+			  response.setHeader("Content-Disposition", "ATTachment; Filename="+fileName+".xls");
+
+			  OutputStream fileOut  = response.getOutputStream();
+			  objWorkBook.write(fileOut);
+			  fileOut.close();
+
+			  response.getOutputStream().flush();
+			  response.getOutputStream().close();
+		}
+	}
 }

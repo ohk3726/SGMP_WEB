@@ -1,6 +1,7 @@
 package com.sgmp.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -35,4 +36,6 @@ public interface OrderService {
 	List<OrderVO> order_p2p_list(@Param("prod_wearing_flg")String prod_wearing_flg) throws Exception;
 	//전체리스트
 	List<OrderVO> order_list_test(SearchVO vo) throws Exception;
+	//입고리스트 출력
+	List<Map> excel_list(OrderVO vo) throws Exception;
 }

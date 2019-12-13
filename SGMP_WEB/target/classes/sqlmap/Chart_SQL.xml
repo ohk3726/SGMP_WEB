@@ -55,4 +55,50 @@
 		and t20.prod_main_category = #{prod_main_category}
 		order by to_char((t10.sale_cnt * t20.prod_price),'FM999,999,999') desc
 	</select>
+	
+	<select id="p2p_output" resultType="orderVO">
+		select 
+			prod_wearing_company_id, 
+			count(prod_wearing_id) as prod_wearing_id
+		from product_wearing 
+		where prod_wearing_release = #{prod_wearing_release}
+		group by prod_wearing_company_id
+	</select>
+	
+	<select id="select_p2p_output_list" resultType="orderVO">
+		select 
+			t10.prod_wearing_id,
+			t10.prod_id,
+			t20.prod_name,
+			t10.prod_wearing_cnt
+		from product_wearing t10,
+			(select * from product where company_id = #{prod_wearing_release}) t20
+		where t10.prod_id = t20.prod_id
+		and t10.prod_wearing_release = #{prod_wearing_release}
+		and t10.prod_wearing_company_id = #{prod_wearing_company_id}
+		order by to_number(t10.prod_wearing_id) desc
+	</select>
+	
+	<select id="p2p_input" resultType="orderVO">
+		select 
+			prod_wearing_release, 
+			count(prod_wearing_id) as prod_wearing_id
+		from product_wearing 
+		where prod_wearing_company_id = #{prod_wearing_release}
+		group by prod_wearing_release
+	</select>
+	
+	<select id="select_p2p_input_list" resultType="orderVO">
+		select 
+			t10.prod_wearing_id,
+			t10.prod_id,
+			t20.prod_name,
+			t10.prod_wearing_cnt
+		from product_wearing t10,
+			(select * from product where company_id = #{prod_wearing_release}) t20
+		where t10.prod_id = t20.prod_id
+		and t10.prod_wearing_release = #{prod_wearing_company_id}
+		and t10.prod_wearing_company_id = #{prod_wearing_release}
+		order by to_number(t10.prod_wearing_id) desc
+	</select>
 </mapper>

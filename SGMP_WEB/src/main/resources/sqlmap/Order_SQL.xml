@@ -190,4 +190,35 @@
 		</if>
 		order by to_number(t20.prod_wearing_id) DESC
 	</select>
+	<select id="excel_list" resultMap="excel">
+		select
+			t10.prod_wearing_id,
+			t10.prod_id,
+			t20.prod_name,
+			to_char(t10.prod_wearing_cnt) as prod_wearing_cnt,
+			<if test="prod_wearing_company_id != 'ROOT'">
+				t10.prod_wearing_release
+			</if>
+			<if test="prod_wearing_company_id == 'ROOT'">
+				t10.prod_wearing_company_id
+			</if>
+		from
+		<if test="prod_wearing_company_id != 'ROOT'">
+			(select * from product_wearing where prod_wearing_company_id = #{prod_wearing_company_id} and prod_wearing_condition = '배송완료') t10,
+		</if>
+		<if test="prod_wearing_company_id == 'ROOT'">
+			(select * from product_wearing where prod_wearing_condition = '상품준비중' and prod_wearing_release = #{prod_wearing_company_id}) t10,
+		</if>
+			(select * from product where company_id = #{prod_wearing_company_id}) t20
+		where t10.prod_id = t20.prod_id
+		order by to_number(t10.prod_wearing_id)
+	</select>
+	<resultMap id="excel" type="map">
+		<result property="prod_wearing_id" column="prod_wearing_id"/>
+		<result property="prod_id" column="prod_id"/>
+		<result property="prod_name" column="prod_name"/>
+		<result property="prod_wearing_cnt" column="prod_wearing_cnt"/>
+		<result property="prod_wearing_release" column="prod_wearing_release"/>
+		<result property="prod_wearing_company_id" column="prod_wearing_company_id"/>
+	</resultMap>
 </mapper>

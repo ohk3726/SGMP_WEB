@@ -32,52 +32,48 @@ public class ProductController {
 	@Resource(name = "CustomerService")
 	private CustomerService customerservice;
 
-	// ���� �ֱ�
+	// 엑셀 넣기
 	@RequestMapping(value = "compExcelUpload", method = { RequestMethod.GET, RequestMethod.POST })
-	public String execUpload(MultipartHttpServletRequest req, Model model, HttpServletResponse response)
+	public String execUpload(MultipartHttpServletRequest req, Model model, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
 		int result_id;
-
+		String result = "login";
 		String excelType = req.getParameter("excelType");
-
-		if (excelType.equals("xlsx")) {
-			result_id = productservice.xlsxExcelReader(req);
-			if (result_id > 0) {
-				System.out.println("�����糪?");
-				response.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				out.println("<script>alert(result_id+'���� ��ǰ�� ID�� �ߺ��Ǿ� ������ �߰��Ǿ����ϴ�.');</script>");
-				out.flush();
-			}
-		} else if (excelType.equals("xls")) {
-			result_id = productservice.xlsExcelReader(req);
-			if (result_id > 0) {
-				response.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				out.println("<script>alert(result_id+'���� ��ǰ�� ID�� �ߺ��Ǿ� ������ �߰��Ǿ����ϴ�.');</script>");
-				out.flush();
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user_id")!=null) {
+			if (excelType.equals("xlsx")) {
+				result_id = productservice.xlsxExcelReader(req);
+				if (result_id > 0) {
+					result = "<script>alert("+result_id+"'개의 제품이 ID가 중복되어 수량만 추가되었습니다.');</script>";
+				}
+			} else if (excelType.equals("xls")) {
+				result_id = productservice.xlsExcelReader(req);
+				if (result_id > 0) {
+					result = "<script>alert("+result_id+"'개의 제품이 ID가 중복되어 수량만 추가되었습니다.');</script>";
+				}
 			}
 		}
-
-		return "productList";
+		return result;
 	}
 
-	// ���� �����ؼ� ���ϱ�
+	// 엑셀 수정해서 더하기
 	@RequestMapping(value = "compExceUpdate", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public String compExceUpdate(MultipartHttpServletRequest req, Model model, HttpServletResponse response)
+	public void compExceUpdate(MultipartHttpServletRequest req, Model model, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
-		String result_id="";
+		String result_id="login";
 		List<ProductVO> list = new ArrayList();
 		String excelType = req.getParameter("excelType");
-
-		if (excelType.equals("xlsx")) {
-			result_id = productservice.xlsxExcelReader_modify(req);
-		} 
-		else if (excelType.equals("xls")) {
-			result_id = productservice.xlsExcelReader_modify(req);
-		} 
-		return result_id;
+		System.out.println("여기");
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user_id")!=null) {
+			if (excelType.equals("xlsx")) {
+				result_id = productservice.xlsxExcelReader_modify(req);
+			} 
+			else if (excelType.equals("xls")) {
+				result_id = productservice.xlsExcelReader_modify(req);
+			} 
+		}
 	}
 
 	// ======
@@ -116,19 +112,26 @@ public class ProductController {
 
 	@RequestMapping(value = "productInfo", method = RequestMethod.GET)
 	public String productInfo(Model model, HttpServletRequest request) throws Exception {
+		String result="login";
 		ProductVO vo = new ProductVO();
 		vo.setProd_id(request.getParameter("product_id"));
+		vo.setCompany_id(request.getParameter("company_id"));
+		HttpSession session = request.getSession();
+		if(session.getAttribute("user_id")!=null) {
+			List<ProductVO> list = productservice.productInfo(vo);
+			model.addAttribute("productInfo", list);
+			
+			result = "content/product/productInfo";
+		}
 
-		List<ProductVO> list = productservice.productInfo(vo);
-		model.addAttribute("productInfo", list);
-
-		return "productInfo";
+		return result;
 	}
 
 	@RequestMapping(value = "product_modify")
-	public String modify(Model model, HttpServletRequest request) throws Exception {
+	public void modify(Model model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		HttpSession session = request.getSession();
 		String product_ID = request.getParameter("product_ID");
-		String product_NAME = request.getParameter("product_NAME");
+		String product_NAME = new String(request.getParameter("product_NAME").getBytes("ISO-8859-1"),"UTF-8");
 		String product_CNT = request.getParameter("product_CNT");
 		String product_ALL = request.getParameter("product_ALL");
 		String product_WEARING_PRICE = request.getParameter("product_WEARING_PRICE");
@@ -147,10 +150,24 @@ public class ProductController {
 		vo.setProd_price(product_PRICE);
 		vo.setProd_margin(product_MARGIN);
 		vo.setCompany_id(company_id);
-
-		productservice.product_modify(vo);
-
-		return "productInfo";
+		
+		if(session.getAttribute("user_id")!=null) {	
+			int update = productservice.product_modify(vo);
+			
+			
+			if(update==1) {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('제품정보가 수정되었습니다.');opener.location.reload();window.close();</script>");
+				out.flush();
+			}
+			else {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('제품정보가 수정되지 않았습니다.');</script>");
+				out.flush();
+			}
+		}
 	}
 
 	@RequestMapping(value = "select_search")
@@ -209,19 +226,21 @@ public class ProductController {
 	@RequestMapping(value = "product_info_insert")
 	public String product_info_insert(Model model, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
-
-		String product_ID = request.getParameter("product_ID");
-		String product_NAME = request.getParameter("product_NAME");
+		String result = "login";
+		HttpSession session = request.getSession();
+		
+		String product_ID = new String(request.getParameter("product_ID").getBytes("ISO-8859-1"),"UTF-8");
+		String product_NAME = new String(request.getParameter("product_NAME").getBytes("ISO-8859-1"),"UTF-8");
 		String product_CNT = request.getParameter("product_CNT");
-
-		String prod_main_category = request.getParameter("prod_main_category");
-		String prod_sub_category = request.getParameter("prod_sub_category");
-		String prod_ssub_category = request.getParameter("prod_ssub_category");
+		
+		String prod_main_category = new String(request.getParameter("prod_main_category").getBytes("ISO-8859-1"),"UTF-8");
+		String prod_sub_category = new String(request.getParameter("prod_sub_category").getBytes("ISO-8859-1"),"UTF-8");
+		String prod_ssub_category = new String(request.getParameter("prod_ssub_category").getBytes("ISO-8859-1"),"UTF-8");
 		String prod_cnt_min = request.getParameter("prod_cnt_min");
 
 		String product_WEARING_PRICE = request.getParameter("product_WEARING_PRICE");
 		String product_PRICE = request.getParameter("product_PRICE");
-		String company_id = request.getParameter("company_id");
+		String company_id = "ROOT";
 
 		product_WEARING_PRICE = product_WEARING_PRICE.replaceAll(",", "");
 		product_PRICE = product_PRICE.replaceAll(",", "");
@@ -238,23 +257,31 @@ public class ProductController {
 		vo.setProd_wearing_price(product_WEARING_PRICE);
 		vo.setProd_price(product_PRICE);
 		vo.setCompany_id(company_id);
+		if(session.getAttribute("user_id")!=null) {
+			int prod_insert = productservice.product_insert(vo);
 
-		int prod_insert = productservice.product_insert(vo);
-
-		if (prod_insert == 1) {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('��ϵǾ����ϴ�.');opener.location.reload();window.close();</script>");
-			out.flush();
+			if (prod_insert == 1) {
+				response.setContentType("text/html; charset=UTF-8");
+				PrintWriter out = response.getWriter();
+				out.println("<script>alert('등록되었습니다.');opener.location.reload();window.close();</script>");
+				out.flush();
+			}
+			result = "content/product/productInfo";
 		}
+		
 
-		return "productInfo";
+		return result;
 	}
 
 	@RequestMapping(value = "product_insert")
 	public String product_insert(Model model, HttpServletRequest request) throws Exception {
-
-		return "product_info_insert";
+		String result = "login";
+		HttpSession session = request.getSession();
+		
+		if(session.getAttribute("user_id")!=null) {
+			result = "content/product/product_info_insert";
+		}
+		return result;
 	}
 
 	@RequestMapping(value = "PRO", method = RequestMethod.POST)

@@ -97,4 +97,11 @@ public class OrderServiceImpl implements OrderService{
 	public List order_list_test(SearchVO vo) throws Exception{
 		return orderDAO.order_list_test(vo);
 	}
+	
+	//입고리스트 출력
+	@Override
+	@Transactional
+	public List excel_list(OrderVO vo) throws Exception{
+		return orderDAO.excel_list(vo);
+	}
 }

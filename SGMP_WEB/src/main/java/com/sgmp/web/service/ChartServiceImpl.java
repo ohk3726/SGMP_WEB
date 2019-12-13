@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sgmp.web.dao.ChartDAO;
+import com.sgmp.web.vo.OrderVO;
 import com.sgmp.web.vo.ProductVO;
 
 @Service("ChartService")
@@ -32,5 +33,29 @@ public class ChartServiceImpl implements ChartService{
 	@Transactional
 	public List select_category_prod(ProductVO vo) throws Exception{
 		return chartmapper.select_category_prod(vo);
+	}
+	
+	@Override
+	@Transactional
+	public List p2p_output(OrderVO vo) throws Exception{
+		return chartmapper.p2p_output(vo);
+	}
+	
+	@Override
+	@Transactional
+	public List select_p2p_output_list(OrderVO vo) throws Exception{
+		return chartmapper.select_p2p_output_list(vo);
+	}
+	
+	@Override
+	@Transactional
+	public List p2p_input(OrderVO vo) throws Exception{
+		return chartmapper.p2p_input(vo);
+	}
+	
+	@Override
+	@Transactional
+	public List select_p2p_input_list(OrderVO vo) throws Exception{
+		return chartmapper.select_p2p_input_list(vo);
 	}
 }

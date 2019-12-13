@@ -46,8 +46,10 @@
 <div style="padding-top:80px;">
 <!-- 검색 -->
 	<div style="background-color:#464646;text-align:right;">
+		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" data-toggle="collapse" href="#condition_change_page" aria-expanded="false" aria-controls="condition_change_page">처리상태변경</a></c:if>
+		<c:if test="${user_id!='admin'}"><a class="btn btn-dark" href="excel_list" aria-expanded="false">입고리스트출력</a></c:if>
+		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" href="excel_list" aria-expanded="false">출고리스트출력</a></c:if>			
 		<a class="btn btn-dark" data-toggle="collapse" href="#search_page" aria-expanded="false" aria-controls="search_page">검색창</a>
-		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" data-toggle="collapse" href="#condition_change_page" aria-expanded="false" aria-controls="condition_change_page">처리상태변경</a></c:if>			
 	</div>
 	<div class="collapse" id="search_page">
 		<form action="search" method="post" id="search">

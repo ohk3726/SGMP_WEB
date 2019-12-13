@@ -30,7 +30,7 @@
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">통계</a>
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="/web/company_chart">매출 통계</a>
-					<a class="dropdown-item" href="#">지점간 이동 통계</a>
+					<a class="dropdown-item" href="/web/p2p_chart">지점간 이동 통계</a>
 				</div>
 			</li>
 			

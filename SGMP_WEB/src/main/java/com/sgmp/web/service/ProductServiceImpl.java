@@ -82,37 +82,37 @@ public class ProductServiceImpl implements ProductService {
 		HSSFWorkbook workbook = null;
 
 		try {
-			// HSSFWorkbook�� �������� ��ü ������ ��� �ִ� ��ü
+			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
 			workbook = new HSSFWorkbook(file.getInputStream());
 
-			// Ž���� ����� Sheet, Row, Cell ��ü
+			// 탐색에 사용할 Sheet, Row, Cell 객체
 			HSSFSheet curSheet;
 			HSSFRow curRow;
 			HSSFCell curCell;
 			ProductVO vo;
 
-			// Sheet Ž�� for��
+			// Sheet 탐색 for문
 			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
-				// ���� sheet ��ȯ
+				// 현재 sheet 반환
 				curSheet = workbook.getSheetAt(sheetIndex);
-				// row Ž�� for��
+				// row 탐색 for문
 				for (int rowIndex = 0; rowIndex < curSheet.getPhysicalNumberOfRows(); rowIndex++) {
-					// row 0�� ��������̱� ������ ����
+					// row 0은 헤더정보이기 때문에 무시
 					if (rowIndex != 0) {
 						curRow = curSheet.getRow(rowIndex);
 						vo = new ProductVO();
 						String value;
 
-						// row�� ù��° cell���� ������� �ʴ� ��츸 cellŽ��
+						// row의 첫번째 cell값이 비어있지 않는 경우만 cell탐색
 						if (curRow.getCell(0) != null) {
 							if (!"".equals(curRow.getCell(0).getStringCellValue())) {
-								// cell Ž�� for��
+								// cell 탐색 for문
 								for (int cellIndex = 0; cellIndex < curRow.getPhysicalNumberOfCells(); cellIndex++) {
 									curCell = curRow.getCell(cellIndex);
 
 									if (true) {
 										value = "";
-										// cell ��Ÿ���� �ٸ����� String���� ��ȯ ����
+										// cell 스타일이 다르더라도 String으로 반환 받음
 										switch (curCell.getCellType()) {
 										case HSSFCell.CELL_TYPE_FORMULA:
 											value = curCell.getCellFormula();
@@ -134,15 +134,15 @@ public class ProductServiceImpl implements ProductService {
 											break;
 										} // end switch
 
-										// ���� colum index�� ���� vo�Է�
+										// 현재 colum index에 따라서 vo입력
 										switch (cellIndex) {
-										case 0: // ���̵�
+										case 0: // 아이디
 											vo.setProd_id(value);
 											break;
-										case 1: // �̸�
+										case 1: // 이름
 											vo.setProd_name(value);
 											break;
-										case 2: // ����
+										case 2: // 가격
 											vo.setProd_price(value);
 											break;
 										case 3: // prod_cnt
@@ -175,12 +175,12 @@ public class ProductServiceImpl implements ProductService {
 										}
 									} // end if
 								} // end for
-									// cell Ž�� ���� vo �߰�
+									// cell 탐색 이후 vo 추가
 								if (0 == ExcelReader_id_same_count(vo)) {
 									productMapper.xlsExcelReader(vo);
 								} else {
 									productMapper.Reader_modify_all(vo);
-									System.out.println("��ǰID(" + vo.getProd_id() + ")�� �ߺ��Ǿ� ������ ����˴ϴ�.");
+									System.out.println("제품ID(" + vo.getProd_id() + ")가 중복되어 수량만 변경됩니다.");
 									result_ ++;
 								}
 
@@ -195,7 +195,7 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 
-		// ��� insert
+		// 디비에 insert
 
 		return result_;
 	}
@@ -205,7 +205,7 @@ public class ProductServiceImpl implements ProductService {
 	public int xlsxExcelReader(MultipartHttpServletRequest req) throws Exception {
 		System.out.println("xlsxExcelReader");
 		int result_ = 0;
-		// ��ȯ�� ��ü�� ����
+		// 반환할 객체를 생성
 		List<ProductVO> list = new ArrayList<ProductVO>();
 
 		MultipartFile file = req.getFile("excel");
@@ -213,37 +213,37 @@ public class ProductServiceImpl implements ProductService {
 		ProductVO vo;
 
 		try {
-			// HSSFWorkbook�� �������� ��ü ������ ��� �ִ� ��ü
+			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
 			workbook = new XSSFWorkbook(file.getInputStream());
 
-			// Ž���� ����� Sheet, Row, Cell ��ü
+			// 탐색에 사용할 Sheet, Row, Cell 객체
 			XSSFSheet curSheet;
 			XSSFRow curRow;
 			XSSFCell curCell;
 
-			// Sheet Ž�� for��
+			// Sheet 탐색 for문
 			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
-				// ���� sheet ��ȯ
+				// 현재 sheet 반환
 				curSheet = workbook.getSheetAt(sheetIndex);
-				// row Ž�� for��
+				// row 탐색 for문
 				for (int rowIndex = 0; rowIndex < curSheet.getPhysicalNumberOfRows(); rowIndex++) {
-					// row 0�� ��������̱� ������ ����
+					// row 0은 헤더정보이기 때문에 무시
 					if (rowIndex != 0) {
 						curRow = curSheet.getRow(rowIndex);
 						vo = new ProductVO();
 						String value;
 
-						System.out.println("������");
-						// row�� ù��° cell���� ������� �ʴ� ��츸 cellŽ��
+						System.out.println("실행중");
+						// row의 첫번째 cell값이 비어있지 않는 경우만 cell탐색
 						if (curRow.getCell(0) != null) {
 							if (!"".equals(curRow.getCell(0).getStringCellValue())) {
-								// cell Ž�� for��
+								// cell 탐색 for문
 								for (int cellIndex = 0; cellIndex < curRow.getPhysicalNumberOfCells(); cellIndex++) {
 									curCell = curRow.getCell(cellIndex);
-									System.out.println("��Ž��");
+									System.out.println("셀탐색");
 									if (true) {
 										value = "";
-										// cell ��Ÿ���� �ٸ����� String���� ��ȯ ����
+										// cell 스타일이 다르더라도 String으로 반환 받음
 										switch (curCell.getCellType()) {
 										case HSSFCell.CELL_TYPE_FORMULA:
 											value = curCell.getCellFormula();
@@ -265,15 +265,15 @@ public class ProductServiceImpl implements ProductService {
 											break;
 										} // end switch
 										System.out.println("break");
-										// ���� colum index�� ���� vo�Է�
+										// 현재 colum index에 따라서 vo입력
 										switch (cellIndex) {
-										case 0: // ���̵�
+										case 0: // 아이디
 											vo.setProd_id(value);
 											break;
-										case 1: // �̸�
+										case 1: // 이름
 											vo.setProd_name(value);
 											break;
-										case 2: // ����
+										case 2: // 가격
 											vo.setProd_price(value);
 											break;
 										case 3: // prod_cnt
@@ -303,19 +303,19 @@ public class ProductServiceImpl implements ProductService {
 											break;
 
 										default:
-											System.out.println("��");
+											System.out.println("끝");
 											break;
 										}
 									} // end if
 
 								} // end for
-									// cell Ž�� ���� vo �߰�
+									// cell 탐색 이후 vo 추가
 								System.out.println(vo);
 								if (0 == ExcelReader_id_same_count(vo)) {
 									productMapper.xlsxExcelReader(vo);
 								} else {
 									productMapper.Reader_modify_all(vo);
-									System.out.println("��ǰID(" + vo.getProd_id() + ")�� �ߺ��Ǿ� ������ ����˴ϴ�.");
+									System.out.println("제품ID(" + vo.getProd_id() + ")가 중복되어 수량만 변경됩니다.");
 									result_ ++;
 								}
 
@@ -331,7 +331,7 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 
-		// ��� insert
+		// 디비에 insert
 
 		return result_;
 	}
@@ -341,7 +341,7 @@ public class ProductServiceImpl implements ProductService {
 	public String xlsxExcelReader_modify(MultipartHttpServletRequest req) throws Exception {
 		System.out.println("xlsxExcelReader_modify");
 
-		// ��ȯ�� ��ü�� ����
+		// 반환할 객체를 생성
 		List<ProductVO> list = new ArrayList<ProductVO>();
 
 		MultipartFile file = req.getFile("excel_2");
@@ -349,38 +349,38 @@ public class ProductServiceImpl implements ProductService {
 		ProductVO vo;
 		String result_ = "";
 		try {
-			// HSSFWorkbook�� �������� ��ü ������ ��� �ִ� ��ü
+			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
 			workbook = new XSSFWorkbook(file.getInputStream());
 
-			// Ž���� ����� Sheet, Row, Cell ��ü
+			// 탐색에 사용할 Sheet, Row, Cell 객체
 			XSSFSheet curSheet;
 			XSSFRow curRow;
 			XSSFCell curCell;
 
-			// Sheet Ž�� for��
+			// Sheet 탐색 for문
 			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
-				// ���� sheet ��ȯ
+				// 현재 sheet 반환
 				curSheet = workbook.getSheetAt(sheetIndex);
-				// row Ž�� for��
+				// row 탐색 for문
 				for (int rowIndex = 0; rowIndex < curSheet.getPhysicalNumberOfRows(); rowIndex++) {
-					// row 0�� ��������̱� ������ ����
+					// row 0은 헤더정보이기 때문에 무시
 					if (rowIndex != 0) {
 						curRow = curSheet.getRow(rowIndex);
 						vo = new ProductVO();
 						String value;
 
-						// row�� ù��° cell���� ������� �ʴ� ��츸 cellŽ��
+						// row의 첫번째 cell값이 비어있지 않는 경우만 cell탐색
 						if (curRow.getCell(0) != null) {
 							if (!"".equals(curRow.getCell(0).getStringCellValue())) {
-								// cell Ž�� for��
+								// cell 탐색 for문
 								for (int cellIndex = 0; cellIndex < curRow.getPhysicalNumberOfCells(); cellIndex++) {
 									curCell = curRow.getCell(cellIndex);
 
-									System.out.println("����ΰ�");
+									System.out.println("어디인가");
 									System.out.println(curCell);
 									if (true) {
 										value = "";
-										// cell ��Ÿ���� �ٸ����� String���� ��ȯ ����
+										// cell 스타일이 다르더라도 String으로 반환 받음
 										switch (curCell.getCellType()) {
 										case HSSFCell.CELL_TYPE_FORMULA:
 											value = curCell.getCellFormula();
@@ -402,12 +402,12 @@ public class ProductServiceImpl implements ProductService {
 											break;
 										} // end switch
 
-										// ���� colum index�� ���� vo�Է�
+										// 현재 colum index에 따라서 vo입력
 										switch (cellIndex) {
-										case 0: // ���̵�
+										case 0: // 아이디
 											vo.setProd_id(value);
 											break;
-										case 1: // �̸�
+										case 1: // 이름
 											vo.setProd_cnt(value);
 											break;
 										default:
@@ -416,9 +416,9 @@ public class ProductServiceImpl implements ProductService {
 									} // end if
 
 								} // end for
-									// cell Ž�� ���� vo �߰�
+									// cell 탐색 이후 vo 추가
 								if (0 == ExcelReader_id_same_count(vo)) {
-									System.out.println("��ǰ�� ID�� ��ϵ����� �ʽ��ϴ�.");
+									System.out.println("제품의 ID가 등록되있지 않습니다.");
 									return vo.getProd_id();
 								} else {
 									productMapper.xlsxExcelReader_modify(vo);
@@ -436,7 +436,7 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 
-		// ��� insert
+		// 디비에 insert
 
 		return result_;
 	}
@@ -450,37 +450,37 @@ public class ProductServiceImpl implements ProductService {
 		HSSFWorkbook workbook = null;
 
 		try {
-			// HSSFWorkbook�� �������� ��ü ������ ��� �ִ� ��ü
+			// HSSFWorkbook은 엑셀파일 전체 내용을 담고 있는 객체
 			workbook = new HSSFWorkbook(file.getInputStream());
 
-			// Ž���� ����� Sheet, Row, Cell ��ü
+			// 탐색에 사용할 Sheet, Row, Cell 객체
 			HSSFSheet curSheet;
 			HSSFRow curRow;
 			HSSFCell curCell;
 			ProductVO vo;
 
-			// Sheet Ž�� for��
+			// Sheet 탐색 for문
 			for (int sheetIndex = 0; sheetIndex < workbook.getNumberOfSheets(); sheetIndex++) {
-				// ���� sheet ��ȯ
+				// 현재 sheet 반환
 				curSheet = workbook.getSheetAt(sheetIndex);
-				// row Ž�� for��
+				// row 탐색 for문
 				for (int rowIndex = 0; rowIndex < curSheet.getPhysicalNumberOfRows(); rowIndex++) {
-					// row 0�� ��������̱� ������ ����
+					// row 0은 헤더정보이기 때문에 무시
 					if (rowIndex != 0) {
 						curRow = curSheet.getRow(rowIndex);
 						vo = new ProductVO();
 						String value;
 
-						// row�� ù��° cell���� ������� �ʴ� ��츸 cellŽ��
+						// row의 첫번째 cell값이 비어있지 않는 경우만 cell탐색
 						if (curRow.getCell(0) != null) {
 							if (!"".equals(curRow.getCell(0).getStringCellValue())) {
-								// cell Ž�� for��
+								// cell 탐색 for문
 								for (int cellIndex = 0; cellIndex < curRow.getPhysicalNumberOfCells(); cellIndex++) {
 									curCell = curRow.getCell(cellIndex);
 
 									if (true) {
 										value = "";
-										// cell ��Ÿ���� �ٸ����� String���� ��ȯ ����
+										// cell 스타일이 다르더라도 String으로 반환 받음
 										switch (curCell.getCellType()) {
 										case HSSFCell.CELL_TYPE_FORMULA:
 											value = curCell.getCellFormula();
@@ -502,12 +502,12 @@ public class ProductServiceImpl implements ProductService {
 											break;
 										} // end switch
 
-										// ���� colum index�� ���� vo�Է�
+										// 현재 colum index에 따라서 vo입력
 										switch (cellIndex) {
-										case 0: // ���̵�
+										case 0: // 아이디
 											vo.setProd_id(value);
 											break;
-										case 1: // ����
+										case 1: // 개수
 											vo.setProd_cnt(value);
 											break;
 										default:
@@ -515,9 +515,9 @@ public class ProductServiceImpl implements ProductService {
 										}
 									} // end if
 								} // end for
-									// cell Ž�� ���� vo �߰�
+									// cell 탐색 이후 vo 추가
 								if (0 == ExcelReader_id_same_count(vo)) {
-									System.out.println("��ǰ�� ID�� ��ϵ����� �ʽ��ϴ�.");
+									System.out.println("제품의 ID가 등록되있지 않습니다.");
 									return vo.getProd_id();
 
 								} else {
@@ -535,7 +535,7 @@ public class ProductServiceImpl implements ProductService {
 			e.printStackTrace();
 		}
 
-		// ��� insert
+		// 디비에 insert
 
 		return result_;
 	}
