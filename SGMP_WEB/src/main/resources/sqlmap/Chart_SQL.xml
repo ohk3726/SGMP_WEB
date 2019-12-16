@@ -9,7 +9,7 @@
 		from
 			(select prod_id, sum(sale_cnt) as sale_cnt 
 				from sale 
-				where sale_date between sysdate-7 and sysdate 
+				where sale_date between sysdate-7 and sysdate+0.99999 
 				<if test="company_id != 'admin'">
 					and company_id = #{company_id}
 				</if>
@@ -26,7 +26,7 @@
 		from
 			(select prod_id, sum(sale_cnt) as sale_cnt 
 				from sale 
-				where sale_date between sysdate-7 and sysdate 
+				where sale_date between sysdate-7 and sysdate+0.99999 
 				<if test="company_id != 'admin'">
 					and company_id = #{company_id}
 				</if>
@@ -45,7 +45,7 @@
 		from
 			(select prod_id, sum(sale_cnt) as sale_cnt 
 			from sale 
-			where sale_date between sysdate-7 and sysdate
+			where sale_date between sysdate-7 and sysdate+0.99999
 			<if test="company_id != 'admin'">
 				and company_id = #{company_id}
 			</if>

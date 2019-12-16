@@ -33,7 +33,8 @@ public class ProductController {
 	private CustomerService customerservice;
 
 	// 엑셀 넣기
-	@RequestMapping(value = "compExcelUpload", method = { RequestMethod.GET, RequestMethod.POST })
+	@RequestMapping(value = "compExcelUpload", method = { RequestMethod.GET, RequestMethod.POST },produces = "application/text; charset=utf8")
+	@ResponseBody
 	public String execUpload(MultipartHttpServletRequest req, Model model, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
 		int result_id;
@@ -43,15 +44,18 @@ public class ProductController {
 		if(session.getAttribute("user_id")!=null) {
 			if (excelType.equals("xlsx")) {
 				result_id = productservice.xlsxExcelReader(req);
+				System.out.println(result_id);
 				if (result_id > 0) {
-					result = "<script>alert("+result_id+"'개의 제품이 ID가 중복되어 수량만 추가되었습니다.');</script>";
+					result = result_id+"개의 제품이 ID가 중복되어 수량만 추가되었습니다.";
 				}
 			} else if (excelType.equals("xls")) {
 				result_id = productservice.xlsExcelReader(req);
 				if (result_id > 0) {
-					result = "<script>alert("+result_id+"'개의 제품이 ID가 중복되어 수량만 추가되었습니다.');</script>";
+					result = result_id+"개의 제품이 ID가 중복되어 수량만 추가되었습니다.";
 				}
 			}
+			
+			
 		}
 		return result;
 	}
@@ -59,7 +63,7 @@ public class ProductController {
 	// 엑셀 수정해서 더하기
 	@RequestMapping(value = "compExceUpdate", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public void compExceUpdate(MultipartHttpServletRequest req, Model model, HttpServletResponse response, HttpServletRequest request)
+	public String compExceUpdate(MultipartHttpServletRequest req, Model model, HttpServletResponse response, HttpServletRequest request)
 			throws Exception {
 		String result_id="login";
 		List<ProductVO> list = new ArrayList();
@@ -74,6 +78,7 @@ public class ProductController {
 				result_id = productservice.xlsExcelReader_modify(req);
 			} 
 		}
+		return result_id;
 	}
 
 	// ======

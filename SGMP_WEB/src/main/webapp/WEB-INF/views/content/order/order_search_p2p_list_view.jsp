@@ -7,7 +7,7 @@
 <script>
 	function condition_change(){
 		var count = 0;
-		var f1=document.getElementById("condition_change");
+		var f1=document.getElementById("condition_change")
 		var length=f1.condition_check.length;
 		var i=0;
 		
@@ -46,17 +46,14 @@
 		document.getElementById("searchSelect").value = sel_search.options[sel_search.selectedIndex].value;
 		document.getElementById("search").submit();
 	}
-</script>
+</script>	
 <div style="padding-top:80px;">
 <!-- 검색 -->
 	<div style="background-color:#464646;text-align:right;">
-		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" data-toggle="collapse" href="#condition_change_page" aria-expanded="false" aria-controls="condition_change_page">처리상태변경</a></c:if>
-		<c:if test="${user_id!='admin'}"><a class="btn btn-dark" href="excel_list" aria-expanded="false">입고리스트출력</a></c:if>
-		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" href="excel_list" aria-expanded="false">출고리스트출력</a></c:if>			
 		<a class="btn btn-dark" data-toggle="collapse" href="#search_page" aria-expanded="false" aria-controls="search_page">검색창</a>
 	</div>
 	<div class="collapse" id="search_page">
-		<form action="search" method="post" id="search">
+		<form action="search_p2p_list" method="post" id="search">
 			<div class="input-group">
 				<input type="text" class="form-control" value="날짜" readonly>
 				<input type="date" name="date1" id="date1" class="form-control" value="${date1}">
@@ -81,7 +78,7 @@
 					<option value="prod_name" selected="selected">제품명</option>
 					<option value="prod_wearing_id">주문ID</option>
 				</select>
-				<input type="text" name="search_keyword" class="custom-select" style="width:300px;"  onkeypress="if(event.keyCode==13){javascript:search_1();}">
+				<input type="text" name="search_keyword" id="search_keyword" class="custom-select" style="width:300px;" value="${sel_search_keyword}" onkeypress="if(event.keyCode==13){javascript:search_1();}">
 				<input type="button" value="검색" class="btn btn-secondary" onclick="javascript:search_1();">
 				<input type="hidden" name="searchSelect" id="searchSelect">
 			</div>
@@ -100,39 +97,49 @@
 		</div>
 	</div>
 	<script>
-		document.getElementById("date1").valueAsDate = new Date();
-		document.getElementById("date2").valueAsDate = new Date();
+		$("#selectCondition1 > option[value=${sel_condition}]").attr("selected",true);
+	</script>
+	<c:if test="${user_id=='admin'}">
+		<script>
+			$("#selectCompany1 > option[value=${sel_company}]").attr("selected",true);
+		</script>
+	</c:if>
+	<script>
+		$("#search_select > option[value=${sel_search}]").attr("selected",true);
+	</script>
+	<script>
+		document.getElementById("search_keyword").value = "${sel_search_keyword}";
+	</script>
+	<script>
+		document.getElementById("date1").valueAsDate = ${date1};
+		document.getElementById("date2").valueAsDate = ${date2};
 	</script>
 <!-- 테이블 -->
 	<div class="mx-auto" style="background-color:white;">
 		<table class="table table-hover responsive-table">
 			<thead class="thead-dark">
 				<tr class="text-center">
-					<th scope="col">선택
 					<th scope="col">처리상태
 					<th scope="col">주문ID
 					<th scope="col">제품명
 					<th scope="col">단가
 					<th scope="col">주문가격
 					<th scope="col">주문수량
-					<th scope="col">출고지점재고수량
 					<th scope="col">출고지점
 					<th scope="col">주문지점명
 				</tr>
 			</thead>
 			<tbody>
-				<form action="condition_change" method="post" id="condition_change">
+				<form action="order_p2p_condition_change" method="post" id="condition_change">
 					<input type="hidden" name="change_condition" id="change_condition">
 						<c:forEach items="${list}" var="order_list">
 							<tr class="text-center">
-								<td><input type="checkbox" name="condition_check" value="${order_list.prod_wearing_id}"></td>
 								<td>${order_list.prod_wearing_condition}<input type="hidden" name="prod_wearing_condition" value="${order_list.prod_wearing_condition}" readonly></td>
 								<td>${order_list.prod_wearing_id}<input type="hidden" name="prod_wearing_id" value="${order_list.prod_wearing_id}" readonly></td>
 								<td>${order_list.prod_name}<input type="hidden" name="prod_name" value="${order_list.prod_name}" readonly></td>
 								<td>${order_list.prod_wearing_price}<input type="hidden" name="prod_wearing_price" value="${order_list.prod_wearing_price}" readonly></td>
 								<td>${order_list.prod_wearing_price_calc}<input type="hidden" name="prod_wearing_price_calc" value="${order_list.prod_wearing_price_calc}" readonly></td>
 								<td>${order_list.prod_wearing_cnt}<input type="hidden" name="prod_wearing_cnt" value="${order_list.prod_wearing_cnt}" readonly></td>
-								<td>${order_list.prod_root_cnt}<input type="hidden" name="prod_root_cnt" value="${order_list.prod_root_cnt}" readonly></td>
 								<td>${order_list.prod_wearing_release}<input type="hidden" name="prod_wearing_release" value="${order_list.prod_wearing_release}" readonly></td>
 								<td>${order_list.prod_wearing_company_id}<input type="hidden" name="prod_wearing_company_id" value="${order_list.prod_wearing_company_id}" readonly></td>
 							</tr>

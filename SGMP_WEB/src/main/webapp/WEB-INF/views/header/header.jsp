@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
@@ -19,6 +20,7 @@
 				<div class="dropdown-menu">
 					<a class="dropdown-item" href="/web/order">지점 주문 관리</a>
 					<a class="dropdown-item" href="/web/order_p2p">지점간 이동 주문 관리</a>
+					<a class="dropdown-item" href="/web/order_p2p_list">지점간 이동 주문 리스트</a>
 				</div>
 			</li>
 			
@@ -37,6 +39,11 @@
 			<li class="nav-item">
 				<a class="nav-link" href="/web/Notice_list?page=1">공지 사항</a>
 			</li>
+			<c:if test="${user_id=='admin'}">
+				<li class="nav-item">
+					<a class="nav-link" href="/web/Company_List">지점 관리</a>
+				</li>
+			</c:if>
 		</ul>
 			
 		<form class="form-inline" action="/web/logout" method="post">

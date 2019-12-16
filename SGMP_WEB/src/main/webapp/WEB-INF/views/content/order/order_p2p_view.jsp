@@ -7,19 +7,26 @@
 <script>
 	function condition_change(){
 		var count = 0;
-		var f1=document.getElementById("condition_change")
+		var f1=document.getElementById("condition_change");
+		
 		var length=f1.condition_check.length;
 		var i=0;
-		while(i<length){
-			if(f1.condition_check[i].checked){
-				count += count+1;
+		
+		if(length){
+			while(i<length){
+				if(f1.condition_check[i].checked){
+					count += count+1;
+				}
+				i++;
 			}
-			i++;
+			
+			if(count == 0){
+				alert("목록을 체크해주세요");
+				return false;
+			}
 		}
-		if(count == 0){
-			alert("목록을 체크해주세요");
-			return false;
-		}
+		
+		
 		
 		var condition_changed = document.getElementById("prod_wearing_condition");
 		document.getElementById("change_condition").value = condition_changed.options[condition_changed.selectedIndex].value;

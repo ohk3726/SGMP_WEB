@@ -1,6 +1,7 @@
 package com.sgmp.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -34,12 +35,26 @@ public class CompanyServiceImpl implements CompanyService{
 	public List<CompanyVO> company_search(CompanyVO vo) throws Exception{
 		return companymapper.company_search(vo);
 	}
-	
+	@Override
+	@Transactional
 	public List company_modify_info(CompanyVO vo) throws Exception{
 		return companymapper.company_modify_info(vo);
 	}
+	@Override
+	@Transactional
 	public int company_modify(CompanyVO vo) throws Exception{
 		return companymapper.company_modify(vo);
+	}
+	@Override
+	@Transactional
+	public int company_same_id(CompanyVO vo) throws Exception{
+		return companymapper.company_same_id(vo);
+	}
+	
+	@Override
+	@Transactional
+	public List<Map> selectMap() throws Exception{
+		return companymapper.selectMap();
 	}
 
 	

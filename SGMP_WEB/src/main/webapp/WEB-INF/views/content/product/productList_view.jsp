@@ -76,8 +76,8 @@
 					"excelType" : fileType
 				},
 				success : function(result) {
-					console.log(result);
 					alert(result);
+					window.location.reload();
 				}
 			};
 			$("#excelUpForm").ajaxSubmit(options);
@@ -106,8 +106,10 @@
 				success : function(data) {
 					if(data==""){
 						alert("입력이 완료되었습니다.");
+						window.location.reload();
 					}else {
 						alert("아이디("+data+")가 존제하지 않습니다. 제품등록 후 다시 요청해주세요");
+						window.location.reload();
 					}
 				},
 				error:function(request,status,error){

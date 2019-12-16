@@ -8,7 +8,15 @@ public class SearchVO {
 	private String prod_name;
 	private String prod_wearing_id;
 	private String prod_wearing_flg;
+	private String prod_wearing_release;
 	
+	
+	public String getProd_wearing_release() {
+		return prod_wearing_release;
+	}
+	public void setProd_wearing_release(String prod_wearing_release) {
+		this.prod_wearing_release = prod_wearing_release;
+	}
 	public String getProd_wearing_flg() {
 		return prod_wearing_flg;
 	}

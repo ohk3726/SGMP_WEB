@@ -10,15 +10,19 @@ function condition_change(){
 	var f1=document.getElementById("condition_change")
 	var length=f1.condition_check.length;
 	var i=0;
-	while(i<length){
-		if(f1.condition_check[i].checked){
-			count += count+1;
+	
+	if(length){
+		while(i<length){
+			if(f1.condition_check[i].checked){
+				count += count+1;
+			}
+			i++;
 		}
-		i++;
-	}
-	if(count == 0){
-		alert("목록을 체크해주세요");
-		return false;
+		
+		if(count == 0){
+			alert("목록을 체크해주세요");
+			return false;
+		}
 	}
 	
 	var condition_changed = document.getElementById("prod_wearing_condition");
@@ -46,8 +50,10 @@ function condition_change(){
 <div style="padding-top:80px;">
 <!-- 검색 -->
 	<div style="background-color:#464646;text-align:right;">
-		<a class="btn btn-dark" data-toggle="collapse" href="#search_page" aria-expanded="false" aria-controls="search_page">검색창</a>
 		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" data-toggle="collapse" href="#condition_change_page" aria-expanded="false" aria-controls="condition_change_page">처리상태변경</a></c:if>			
+		<c:if test="${user_id!='admin'}"><a class="btn btn-dark" href="excel_list" aria-expanded="false">입고리스트출력</a></c:if>
+		<c:if test="${user_id=='admin'}"><a class="btn btn-dark" href="excel_list" aria-expanded="false">출고리스트출력</a></c:if>	
+		<a class="btn btn-dark" data-toggle="collapse" href="#search_page" aria-expanded="false" aria-controls="search_page">검색창</a>
 	</div>
 	<div class="collapse" id="search_page">
 		<form action="search" method="post" id="search">

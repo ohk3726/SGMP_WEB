@@ -299,7 +299,7 @@ public class ProductServiceImpl implements ProductService {
 											break;
 										case 10: // company_id
 											vo.setCompany_id(value);
-											System.out.println("company_id");
+											System.out.println(value);
 											break;
 
 										default:
@@ -316,7 +316,7 @@ public class ProductServiceImpl implements ProductService {
 								} else {
 									productMapper.Reader_modify_all(vo);
 									System.out.println("제품ID(" + vo.getProd_id() + ")가 중복되어 수량만 변경됩니다.");
-									result_ ++;
+									result_+=1;
 								}
 
 								list.add(vo);
@@ -420,7 +420,7 @@ public class ProductServiceImpl implements ProductService {
 								if (0 == ExcelReader_id_same_count(vo)) {
 									System.out.println("제품의 ID가 등록되있지 않습니다.");
 									return vo.getProd_id();
-								} else {
+								} else {										
 									productMapper.xlsxExcelReader_modify(vo);
 								}
 

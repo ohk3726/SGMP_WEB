@@ -7,11 +7,11 @@
 <div style="width:100%;padding-top:80px;">
 	<div class="row">
 		<div class="col-6" style="padding-right:1px;height:30%;">
-			<table class="table" ><thead class="thead-dark"><tr><th>지점 간 이동 출고량</thead></table>
+			<table class="table" ><thead class="thead-dark"><tr><th>지점 출고량</thead></table>
 			<canvas id="myChart1" height=80%></canvas>
 		</div>
 		<div class="col-6" style="padding-left:1px;height:30%;">
-			<table class="table" ><thead class="thead-dark"><tr><th>지점 간 이동 입고량</thead></table>
+			<table class="table" ><thead class="thead-dark"><tr><th>지점 입고량</thead></table>
 			<canvas id="myChart2" height=80%></canvas>
 		</div>
 	</div>

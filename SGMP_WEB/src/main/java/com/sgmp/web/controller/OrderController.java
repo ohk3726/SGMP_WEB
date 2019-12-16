@@ -79,7 +79,12 @@ public class OrderController {
 			SearchVO vo = new SearchVO();
 			vo.setDate1(date1);
 			vo.setDate2(date2);
-			vo.setProd_wearing_company_id(sel_company);
+			if(session.getAttribute("user_id").equals("admin")) {				
+				vo.setProd_wearing_company_id(sel_company);
+			}
+			else {
+				vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+			}
 			vo.setProd_wearing_condition(sel_condition);
 			vo.setProd_wearing_flg("0");
 			if(sel_search.equals("prod_name")) {
@@ -129,7 +134,7 @@ public class OrderController {
 						String go_to = "/web/order_goto?prod_wearing_id="+cnt_check.get(0).getProd_wearing_id();
 						response.setContentType("text/html; charset=UTF-8");
 						PrintWriter out = response.getWriter();
-						out.println("<script>alert('본사재고량이 부족하여 지점간이동으로 넘어갑니다.');window.open('"+go_to+"','BSM','width=500px,height=500px',true);</script>");
+						out.println("<script>alert('본사재고량이 부족하여 지점간이동으로 넘어갑니다.');window.open('"+go_to+"','BSM','width=900px,height=700px',true);</script>");
 						out.flush();
 					}
 					else if(cnt_check.size() > 1) {

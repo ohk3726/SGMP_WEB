@@ -176,11 +176,13 @@
 		select count(*) as prod_id  
 		from product
 		where prod_id = #{prod_id}
+		and company_id = 'ROOT'
 	</select>
 	
 	<update id ="Reader_modify_all">
 	UPDATE PRODUCT SET PROD_CNT = PROD_CNT+#{prod_cnt}
 		WHERE PROD_ID = #{prod_id}
+		and company_id = 'ROOT'
 	</update>
 	
 

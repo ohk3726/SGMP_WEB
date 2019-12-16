@@ -142,6 +142,7 @@
 			(select * from product where company_id != 'ROOT') t20
 		where t10.prod_id = t20.prod_id(+)
 		and t20.company_id != (select prod_wearing_company_id from product_wearing where prod_wearing_id = #{prod_wearing_id})
+        and t20.prod_cnt-t20.prod_cnt_min > (select prod_wearing_cnt from product_wearing where prod_wearing_id = #{prod_wearing_id})
 		and t10.prod_wearing_id = #{prod_wearing_id}
 	</select>
 <!-- 지점간이동으로 보내기 -->
@@ -174,13 +175,16 @@
 		and t20.prod_wearing_company_id = t10.company_id(+)
 		and t20.prod_wearing_flg = #{prod_wearing_flg}
 		<if test="date1 != null and date1 != '' and date2 != null and date2 != ''">
-			and t20.prod_wearing_date between #{date1} and #{date2}
+			and t20.prod_wearing_date between to_date(#{date1}) and to_date(#{date2})+0.99999
 		</if>
 		<if test="prod_wearing_condition != null and prod_wearing_condition != '' and prod_wearing_condition != '처리상태선택하기'">
 			and t20.prod_wearing_condition = #{prod_wearing_condition}
 		</if>
 		<if test="prod_wearing_company_id != null and prod_wearing_company_id != '' and prod_wearing_company_id != '지점명선택하기' and prod_wearing_company_id != 'admin'">
 			and t20.prod_wearing_company_id = #{prod_wearing_company_id}
+		</if>
+		<if test="prod_wearing_release != null and prod_wearing_release != ''">
+			and t20.prod_wearing_release = #{prod_wearing_release}
 		</if>
 		<if test="prod_name != null and prod_name != ''">
 			and t10.prod_name like '%'||#{prod_name}||'%'

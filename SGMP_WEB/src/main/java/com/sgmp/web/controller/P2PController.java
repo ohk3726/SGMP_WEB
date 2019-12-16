@@ -24,7 +24,6 @@ public class P2PController {
 	
 	@Resource(name="OrderService")
 	private OrderService orderservice;
-	private static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
 	
 	/* 지점 상품 주문 페이지 이동 */
@@ -36,7 +35,7 @@ public class P2PController {
 		if(session.getAttribute("user_id")!=null) {
 			SearchVO vo = new SearchVO();
 			vo.setProd_wearing_flg("1");
-			vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+			vo.setProd_wearing_release(session.getAttribute("user_id").toString());
 			List<OrderVO> list = orderservice.order_list_test(vo);
 			List<OrderVO> list_3 = orderservice.order_condition();
 			List<OrderVO> list_4 = orderservice.order_company();
@@ -68,7 +67,12 @@ public class P2PController {
 			SearchVO vo = new SearchVO();
 			vo.setDate1(date1);
 			vo.setDate2(date2);
-			vo.setProd_wearing_company_id(sel_company);
+			if(session.getAttribute("user_id").equals("admin")) {				
+				vo.setProd_wearing_release(sel_company);
+			}
+			else {
+				vo.setProd_wearing_release(session.getAttribute("user_id").toString());
+			}
 			vo.setProd_wearing_condition(sel_condition);
 			vo.setProd_wearing_flg("1");
 			if(sel_search.equals("prod_name")) {
@@ -93,6 +97,81 @@ public class P2PController {
 			model.addAttribute("sel_search_keyword",sel_search_keyword);
 			
 			result="order_search_p2p";
+		}
+		return result;
+	}
+	
+	/* 지점 상품 주문 페이지 이동 */
+	@RequestMapping(value="/order_p2p_list")
+	public String order_p2p_list(HttpServletRequest request, Model model) throws Exception{
+		String result="login";
+		HttpSession session = request.getSession();
+		//로그인 세션이 없으면 로그인 페이지로 이동
+		if(session.getAttribute("user_id")!=null) {
+			SearchVO vo = new SearchVO();
+			vo.setProd_wearing_flg("1");
+			vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+			List<OrderVO> list = orderservice.order_list_test(vo);
+			List<OrderVO> list_3 = orderservice.order_condition();
+			List<OrderVO> list_4 = orderservice.order_company();
+
+			model.addAttribute("list",list);
+			model.addAttribute("list_3",list_3);
+			model.addAttribute("list_4",list_4);
+			
+			result="order_p2p_list";
+		}
+		return result;
+	}
+	/* 검색 */
+	@RequestMapping(value = "search_p2p_list", method = RequestMethod.POST)
+	public String search_p2p_list(HttpServletRequest request, Model model) throws Exception {
+		String result="login";
+		HttpSession session = request.getSession();
+		
+		String date1 = request.getParameter("date1");
+		String date2 = request.getParameter("date2");
+		//getParameter 한글처리
+		String sel_condition = new String(request.getParameter("selectCondition").getBytes("ISO-8859-1"),"UTF-8");
+		String sel_company = new String(request.getParameter("selectCompany").getBytes("ISO-8859-1"),"UTF-8");
+		String sel_search = request.getParameter("searchSelect");
+		String sel_search_keyword = new String(request.getParameter("search_keyword").getBytes("ISO-8859-1"),"UTF-8");
+		//System.out.println(date1+date2+sel_condition+sel_company+sel_search+sel_search_keyword);
+
+		if(session.getAttribute("user_id")!=null) {
+			SearchVO vo = new SearchVO();
+			vo.setDate1(date1);
+			vo.setDate2(date2);
+			if(session.getAttribute("user_id").equals("admin")) {				
+				vo.setProd_wearing_company_id(sel_company);
+			}
+			else {
+				vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+			}
+			vo.setProd_wearing_condition(sel_condition);
+			vo.setProd_wearing_flg("1");
+			if(sel_search.equals("prod_name")) {
+				vo.setProd_name(sel_search_keyword);
+			}
+			else {
+				vo.setProd_wearing_id(sel_search_keyword);
+			}
+			
+			List<OrderVO> list = orderservice.order_list_test(vo);
+			List<OrderVO> list_3 = orderservice.order_condition();
+			List<OrderVO> list_4 = orderservice.order_company();
+			
+			model.addAttribute("list",list);
+			model.addAttribute("list_3",list_3);
+			model.addAttribute("list_4",list_4);
+			model.addAttribute("date1",date1);
+			model.addAttribute("date2",date2);
+			model.addAttribute("sel_condition",sel_condition);
+			model.addAttribute("sel_company",sel_company);
+			model.addAttribute("sel_search",sel_search);
+			model.addAttribute("sel_search_keyword",sel_search_keyword);
+			
+			result="order_search_p2p_list";
 		}
 		return result;
 	}
@@ -152,7 +231,7 @@ public class P2PController {
 				}
 				SearchVO vo = new SearchVO();
 				vo.setProd_wearing_flg("1");
-				vo.setProd_wearing_company_id(session.getAttribute("user_id").toString());
+				vo.setProd_wearing_release(session.getAttribute("user_id").toString());
 				List<OrderVO> list = orderservice.order_list_test(vo);
 				List<OrderVO> list_3 = orderservice.order_condition();
 				List<OrderVO> list_4 = orderservice.order_company();

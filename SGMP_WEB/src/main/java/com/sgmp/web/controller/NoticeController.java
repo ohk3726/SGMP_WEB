@@ -100,7 +100,7 @@ public class NoticeController {
 		vo.setNo_content(Content);
 
 		noticeservice.notice_write(vo);
-		return "Notice_write";
+		return "redirect:/Notice_list?page=1";
 	}
 
 	@RequestMapping(value = "Notice_list_info")
