@@ -77,7 +77,7 @@
 				},
 				success : function(result) {
 					alert(result);
-					window.location.reload();
+					window.location.reload();;
 				}
 			};
 			$("#excelUpForm").ajaxSubmit(options);
